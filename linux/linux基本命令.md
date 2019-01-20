@@ -11,7 +11,8 @@
 1、绝对路径从/开始，不需要参照物，在哪都行：ls /root。相对路径：./就是当前路径，../上一级目录下。
 
 2、linux文件目录
-![image text](https://github.com/xuzhuang1996/MyJava/img/linux/linux1.png)
+![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/linux1.png)
+![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/Linux2.png)
 
 ## 基础指令
 1、ls
