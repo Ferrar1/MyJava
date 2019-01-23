@@ -187,3 +187,8 @@
 3、chgrp（了解）   
 作用：更改文档的所属用户组   
 语法：`chgrp -R groupname 文档路径`
+
+## 扩展
+1、reboot、shutdown、init、halt、user等命令，普通用户操作不了，但又想用。可以使用sudo命令（switch user do切换用户）。事先定义某些特殊命令谁可以执行。在/etc/sudoers文件夹下。但是只有root才能查看，但是Ubuntu需要知道root密码，`sudo passwd`。然后输入密码就是设置密码了。然而只能读，即使是root。
+
+- 配置/etc/sudoers，使用`visudo`命令,直接就是这个语句，使用方法与vim一致。但是如果是Ubuntu16，则ctrl+x 退出。ctrl+o 保存。
