@@ -45,14 +45,14 @@
    - -r删除用户的同时，删除家目录。如果失败，kill主进程（root...su 用户名这行的pid）
 
 
-##网络
+## 网络
 1、网卡位置：一般linux在/etc/sysconfig/network-script文件夹下。Ubuntu是在/etc/network/interfaces。DEVICE：设备名。TYPE：Ethernet以太网。ONBOOT：自动启动。BOOTPROTO分配IP方式，有DHCP动态分配主机协议。 HWADDR：硬件地址，MAC地址。
 
 2、服务重启：在/etc/init.d中的快捷方式，找network的相关命令，执行`/etc/init.d/network restart`（扩展，如果目录很深，可以在浅的目录创建快捷方式：软连接`ln -s 路径 路径`，当ls -l列出的时候，以l开头，link就是快捷方式）
 
 3、停止某个网卡`ifdown 网卡名`；开启网卡`ifup 网卡名`
 
-##ssh——secure shell服务（重点）
+## ssh——secure shell服务（重点）
 1、该协议2个常见的协议：远程连接协议、远程文件传输。使用默认端口号为22.可以在/etc/ssh/ssh_config的配置文件中修改。`service sshd start/stop/restart`或者跟上面一样`/etc/init.d/sshd start/stop/restart`
 
 2、远程终端。  
@@ -65,7 +65,7 @@
    - 下载`pscp 选项 用户名@linux 主机地址：资源路径 Windows本地地址`
    - 上传`pscp 选项 资源路径 用户名@linux 主机地址：远程路径`
 
-##自有服务
+## 自有服务
 1、设置主机名   
 一般在/etc/sysconfig/network，修改其中的HOSTNAME的值。但是Ubuntu没有这个。只有/etc/hostname文件，直接在里面改就行了，重启后生效。之后如果发现linux本地无法用新的主机名访问浏览器，就在/etc/hosts文件进行修改。
 
@@ -174,3 +174,16 @@
    上面说的r为4，w为2，x为1。例子：
    - 上面的例子`chmod 754 ./a.txt`
    - 对于这种命令`chmod 731 ./a.txt`的问题是，3=2+1,能写能执行，但是不能读，说明这个命令有问题。
+   - 在linux中，删除一个文件，不是看该文件是否有写权限，要看其所在的文件夹是否有写权限。
+   
+   
+## 属主与属组设置
+1、属主是文件的主人，属组所属的用户组。`ls -l`后输出的有2个用户信息，例如`-rw-rw-r-- 1 xu xu 804 1月   8 11:25 xuxu`，第一个就是属主，后面的就是属组。
+
+2、chown   
+作用：更改文档的所属用户   
+语法：`chown -R username 文档路径`，其中的-R如果是文件夹就需要。如果将23结合就是`chown -R username:groupname 文档路径`。
+
+3、chgrp（了解）   
+作用：更改文档的所属用户组   
+语法：`chgrp -R groupname 文档路径`
