@@ -191,4 +191,9 @@
 ## 扩展
 1、reboot、shutdown、init、halt、user等命令，普通用户操作不了，但又想用。可以使用sudo命令（switch user do切换用户）。事先定义某些特殊命令谁可以执行。在/etc/sudoers文件夹下。但是只有root才能查看，但是Ubuntu需要知道root密码，`sudo passwd`。然后输入密码就是设置密码了。然而只能读，即使是root。
 
-- 配置/etc/sudoers，使用`visudo`命令,直接就是这个语句，使用方法与vim一致。但是如果是Ubuntu16，则ctrl+x 退出。ctrl+o 保存。
+- 配置/etc/sudoers，使用`visudo`命令,直接就是这个语句，使用方法与vim一致。但是如果是Ubuntu16，则ctrl+x 退出。ctrl+o 保存后回车再退出。打开后：
+   - `root ALL=(ALL:ALL) ALL`，案例：本身test用户不能添加用户，将其设置为可以添加用户并可以修改密码（除root）：需要写命令的完整路径查看指令路径的方式`which 指令`：`xu ALL=(ALL) /usr/sbin/useradd,/usr/bin/passwd`如果是不能改root密码：`xu ALL=(ALL) /usr/sbin/useradd,/usr/bin/passwd,!/usr/bin/passwd root`不过需要注意的是，第一次安装Ubuntu时新建的用户依然可以设置root密码。`sudo -l`查看单独配置的命令
+      - root表示能使用sudo命令的用户；如果是用户组，写作`%组名`
+      - 第一个ALL表示允许使用sudo的主机；（可以是localhost或者啥）
+      - 第二个ALL及第三个ALL表示以什么身份去执行（这里以ALL身份执行）；
+      - 第四个ALL表示sudo可执行的命令，即所有命令；在有的系统中也简写做：`root ALL=(ALL) ALL`
