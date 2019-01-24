@@ -1,7 +1,19 @@
 学习地址：https://www.bilibili.com/video/av35364272/?p=4
 
 ## 停止线程：
-1、之前使用的stop方法已不支持，jdk1.6之后interrupt方法。最佳实践：通过bool返回值的 interrupted方法判断是否符合停止条件，调用interrupt方法后，将符合停止条件，于是线程停止。  
+1、之前使用的stop方法已不支持，jdk1.6之后interrupt方法。最佳实践：通过bool返回值的 interrupted方法判断是否符合停止条件，调用interrupt方法后，将符合停止条件，于是线程停止：
+
+	Thread thread = new Thread(() -> {
+	    while (!Thread.interrupted()) {
+		// do more work
+	    }
+	    // return or throw InterruptedException
+	});
+	thread.start();
+
+	// 一段时间以后
+	thread.interrupt();
+	
 ## 创建线程 
 1、如果继承Thread类，就是直接重写了run方法。建议使用Runable创建线程：因为这样使代码逻辑与线程分离,面向接口编程。分析：一个类在实现Runable接口后，使用线程时，是以`Thread thread1 = new Thread(runner1)`方式调用的，其构造函数init方法中有`this.target = target`也就是将runner1传递给thread1的私有成员target，在该thread1开启线程的时候，其run方法如下：   
 
