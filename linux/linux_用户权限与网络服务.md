@@ -1,3 +1,7 @@
+[TOC]
+
+# linux用户管理
+
 ## 运行模式
 
 1.运行模式也可以称为运行级别。在linux中存在一个init进程，初始化进程。PID为1.该进程存在一个配置文件，inittab(运行级别配置文件),位置/etc/inittab。不过在ubuntu下，已经找不到这个文件了，inittab软件包/etc/init，在/etc/init/下rc-sysinit.conf，在该文件末尾（58行执行init.d/rcS脚本进行初始化）。Ubuntu有0123456sS这几种：
@@ -44,6 +48,7 @@
 - 删除用户：`userdel 选项 用户名`
    - -r删除用户的同时，删除家目录。如果失败，kill主进程（root...su 用户名这行的pid）
 
+# linux网络服务
 
 ## 网络
 1、网卡位置：一般linux在/etc/sysconfig/network-script文件夹下。Ubuntu是在/etc/network/interfaces。DEVICE：设备名。TYPE：Ethernet以太网。ONBOOT：自动启动。BOOTPROTO分配IP方式，有DHCP动态分配主机协议。 HWADDR：硬件地址，MAC地址。
@@ -188,7 +193,7 @@
 作用：更改文档的所属用户组   
 语法：`chgrp -R groupname 文档路径`
 
-## 扩展
+## sudo扩展
 1、reboot、shutdown、init、halt、user等命令，普通用户操作不了，但又想用。可以使用sudo命令（switch user do切换用户）。事先定义某些特殊命令谁可以执行。在/etc/sudoers文件夹下。但是只有root才能查看，但是Ubuntu需要知道root密码，`sudo passwd`。然后输入密码就是设置密码了。然而只能读，即使是root。
 
 - 配置/etc/sudoers，使用`visudo`命令,直接就是这个语句，使用方法与vim一致。但是如果是Ubuntu16，则ctrl+x 退出。ctrl+o 保存后回车再退出。打开后：
