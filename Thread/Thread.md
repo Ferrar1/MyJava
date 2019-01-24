@@ -1,5 +1,5 @@
-插入代码，空一行。tab键空2格或者4格就行了   
-地址：https://www.bilibili.com/video/av35364272/?p=4
+学习地址：https://www.bilibili.com/video/av35364272/?p=4
+
 ## 停止线程：
 1、之前使用的stop方法已不支持，jdk1.6之后interrupt方法。最佳实践：通过bool返回值的 interrupted方法判断是否符合停止条件，调用interrupt方法后，将符合停止条件，于是线程停止。  
 ## 创建线程 
