@@ -172,4 +172,6 @@
 
 ## vim
 ![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimtmp.png)
-![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vim.png)
+![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimCommand.png)
+![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimEnd.png)
+![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimex.png)
