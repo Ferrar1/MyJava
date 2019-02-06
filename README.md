@@ -19,4 +19,4 @@ markdown：
 
 
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/Linux2.png" width = "100" height = "100" div align=right />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/Linux2.png" width = 50% height = 50% div align=right />
