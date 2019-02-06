@@ -78,7 +78,7 @@
 - **CAS--Compare And Swap** 比较并交换--通过比较传入的旧值和原内存位置中的值比较，来决定是不是要更新数据。CAS操作包含三个操作数——内存位置（V）、预期原值（A）和新值(B)。如果内存位置的值与预期原值相匹配，那么处理器会自动将该位置值更新为新值。否则，处理器不做任何操作。
 - **Mark Word**是对象头的一部分，对象实例由对象头、实例数据组成。其中`lock record`称之为锁记录的空间，如果上面图中`ptr to lock record`的标志位为01，表示该对象没有锁定，（在竞争CPU处理时）那么虚拟机首先将在当前线程帧栈中建立一个`lock record`的空间，用于存储当前对象的markword的一份拷贝，然后使用CAS操作尝试将mark-word更新为指向`lock record`的指针，如果更新成功那么就说明该线程已经拥有了该对象的使用权限，那么就会将上面`ptr to  lock record`的标志位设置为00证明该对象正在处于轻量级锁定状态。否则进入锁等待。不断获得的过程就是自旋锁。
 ![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/Thread/markword.png)
-
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/Thread/markword.png" width = 30% height = 30% />
 - synchronized关键字加到static静态方法上是给Class类加锁锁，而synchronized关键字加到非static静态方法上是给对象上锁
 - 可见性：一个线程修改了这个变量，另一个线程能读到修改后的值。
 
