@@ -16,7 +16,4 @@ markdown：
 
 - `<img src="https..." width = 30% height = 30% />`
 - `<div align=center>![这里写图片描述](http:...)`
-
-
-
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/Linux2.png" width = 50% height = 50% div align=right />
+- `<img src="https..." width = 50% height = 50% div align=right />`
