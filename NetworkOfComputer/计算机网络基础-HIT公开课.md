@@ -379,5 +379,6 @@ DNS协议：查询和回复协议。
 
 
 例题：
+
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-例题.PNG" width=70% height=70% />
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-解答.PNG" width=70% height=70% />
