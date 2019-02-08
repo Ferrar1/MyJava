@@ -137,7 +137,7 @@
 - 网页包含多个对象：HTML文件，图片等。
 - 对象寻址：URL，统一资源定位符。
 
-2)HTTP应用层协议使用的传输层协议是TCP：   
+2)HTTP应用层协议使用的传输层协议是TCP,其过程：   
 
 - 服务器在80端口等待客户请求
 - 浏览器发起服务器的TCP连接（创建套接字Socket）
@@ -149,8 +149,8 @@
 
 3)Http连接的2种类型：
 
-- 非持久性连接：当用户在浏览器输入网址www.example.com/index.html时过程如下图，缺点是慢，为每个TCP连接开销资源。
-- 持久性连接：发送响应后服务器保持TCP连接的打开，后续HTTP消息可以通过这个连接发送，带流水机制的持久性连接是客户端只要遇到一个引用对象就尽快发出请求（所有引用对象一共耗时1个RTT），无流机制的持久性连接是只有前一个收到响应完成请求才发出新的请求（每个对象耗时1个RTT）。
+- 非持久性连接：当用户在浏览器输入网址www.example.com/index.html 时过程如下图，缺点是慢，为每个TCP连接开销资源。 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4web应用tcp.png" width=100% height=100% />
+- 持久性连接：发送响应后服务器保持TCP连接的打开，后续HTTP消息可以通过这个连接发送，带流水机制的持久性连接是客户端只要遇到一个引用对象就尽快发出请求（所有引用对象一共耗时1个RTT），无流机制的持久性连接是只有前一个收到响应完成请求才发出新的请求（每个对象耗时1个RTT）。<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4web应用tcp时间.PNG" width=50% height=50% />
 
 >RTT(round trip time)从客户端发送一个很小的数据包到服务器并返回，所经历的时间。
 
@@ -168,6 +168,7 @@
 - HTTP响应消息的cookie头部行
 - HTTP请求详细的cookie头部行
 - web服务器端的后台数据库   
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4web应用cookie.PNG" width=70% height=70% />
 
 6)缓存/代理服务器技术
 
@@ -186,7 +187,9 @@
 - Smtp协议，使用TCP，端口25.传输三阶段：握手，消息传输，关闭。采用命令/响应模式（与HTTP的请求响应不同）。使用持久性连接，消息必须为7位ASCII构成。
   - 头部行：To、From、Subject
   - 消息体：只能是ASCII字符。
-  - MIME：为了支持多媒体二进制文件，在邮件头部增加额外的行以声明MIME的内容。
+  - MIME：为了支持多媒体二进制文件，在邮件头部增加额外的行以声明MIME的内容.下图为一个消息结构：
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4Email.PNG" width=70% height=70% />
+
 
 >与HTTP的对比：HTTP为pull,smtp为push.
 
@@ -196,13 +199,16 @@
 1、解决互联网上主机/路由器的识别问题。
 
 2、域名解析系统DNS将域名解析为IP地址。DNS采用分布式层次数据库，如下图。
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS数据库.PNG" width=70% height=70% />
 
 **当客户端查询www.amazon.com时**
 
 - 客户端查询根服务器，找到com域名解析服务器。
 - 顶级域名服务器负责com、cn等：客户端查询com域名解析服务器，找到Amazon.com域名解析服务器。该服务器一般被缓存在本地，因此根服务器不经常访问。
 - 权威域名服务器：客户端查询Amazon.com域名解析服务器，获得www.amazon.com的IP地址。
-- 本地域名服务器：不在上述的层次结构中，当主机进行DNS查询时，查询被发送到本地域名服务器。有２种查询方式：
+- 本地域名服务器：不在上述的层次结构中，当主机进行DNS查询时，查询被发送到本地域名服务器。有２种查询方式：迭代与递归查询.
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS查询之迭代.PNG" width=50% height=50% /><img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS查询之递归.PNG" width=49% height=50% />
 
 >DNS做负载均衡：对于一个大的门户网站，在DNS服务器中为同一个主机名配置多个IP地址，当进行域名向IP地址的翻译时，将以DNS文件中主机记录的IP地址按顺序返回不同的解析结果，将客户端的访问引导到不同的机器上去
 
