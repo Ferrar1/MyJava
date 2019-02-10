@@ -236,14 +236,17 @@ DNS协议：查询和回复协议。
 - 域名管理机构向com顶级域名解析服务器中插入2条记录
   - （example.com,dns1.example.com,NS）
   - (dns1.example.com,212.212.212.1,A)
-- 在权威域名解析器中为www.example.com加入Type=A记录，让自己的主页被外面访问。为example.com加入Type=MX记录可以使用邮件系统。
+- 在权威域名解析器中为www.example.com 加入Type=A记录，让自己的主页被外面访问。为example.com加入Type=MX记录可以使用邮件系统。
 
 
 
 ### 2.1.4 P2P应用
 1、peer-to-peer,没有服务器，热议端系统之间直接通信，节点阶段性接入Internet，节点可能更换IP地址。
 
-2、文件分发：BitTorrent协议。torrent是指交换同一个文件的文件块的节点组（所有参与的节点形成了一个组）。tracker是跟踪参与torrent的节点（跟踪有哪些节点参与到了torrent）。如下。过程就是：
+2、文件分发：BitTorrent协议。torrent是指交换同一个文件的文件块的节点组（所有参与的节点形成了一个组）。tracker是跟踪参与torrent的节点（跟踪有哪些节点参与到了torrent）。如下。
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/5P2P之BT.PNG" width=66% height=66% />
+
+过程就是：
 
 - 将目的文件划分为256KB的chunk
 - 节点加入torrent时，如果节点没有chunk，将逐渐积累，同时向tracker注册以获取节点清单，然后可以与邻近节点建立连接。获取chunk时，
@@ -261,8 +264,14 @@ DNS协议：查询和回复协议。
 
 集中式索引，如下图：
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/5P2P之集中式索引.PNG" width=66% height=66% />
 
-洪泛式索引，Query Flooding，完全分布式架构，每个节点对他共享的文件进行索引，且只对他共享的文件进行索引。过程：
+
+洪泛式索引，Query Flooding，完全分布式架构，每个节点对他共享的文件进行索引，且只对他共享的文件进行索引。
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/5P2P之泛洪.PNG" width=50% height=50% />
+
+过程：
 
 - 查询消息通过已有TCP连接发送
 - 任何收到消息的节点进行转发查询消息。
@@ -275,13 +284,21 @@ DNS协议：查询和回复协议。
 
 1、如下图，表面上是应用进程之间通过应用层协议在控制，其实还是通过操作系统在控制数据交换，因此应用层需要将数据传输到下一层，故需要接口来完成应用进程与底层交互。 该接口称为应用编程接口API。常见的接口有：socket、WinSock、TLI。
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket.PNG" width=66% height=66% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket类型.PNG" width=66% height=66% />
+
 2、如何标识socket
 
 - 标识通信端点（对外）：IP地址+端口号。
 - 在操作系统/进程层面上（对内）：当应用程序创建socket时，操作系统分配一个数据结构存储该socket的相关信息，并返回一个socket descripter。即一个网络应用进程利用socket descripter(套接字描述符，小整数)引用其创建的一个Socket。如下图：
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket数据结构.PNG" width=66% height=66% />
+
 >使用TCP/IP协议簇的网络应用程序声明**端点地址**变量时专门定义了数据结构sockaddr_in
 
 3、winSock独有的函数
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket过程.PNG" width=66% height=66% />
 
 - WSAStartUp,初始化winSock的API。进行网络编程的应用程序在使用socket之前必须首先调用该函数。参数：
   - 第一个参数指明程序请求使用的winSock的版本
