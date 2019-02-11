@@ -31,18 +31,21 @@
 1)、关键功能：路由、转发。解决的基本问题：如何实现数据从源主机通过网络核心送达目的主机。手段就是**数据交换**.
 
 >为何进行数据交换：n台主机相连需要产生（N-1)N/2条链路，数量庞大不可行；因此引入交换设备，实现在主机之间实现动态数据转换，但如果主机数量多要求交换设备的端口需要大，另外如果网络距离大很难连接在一个交换设备上；最终解决方案：将交换设备互联在一起形成交换网络，让主机跟交换网络中的某一个交换设备连接。
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-为何进行数据交换.PNG" width=60% height=60% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-为何进行数据交换.PNG" width=50% height=50% />
  
 2)、交换： 实现动态转接（在所有交换设备端口之间建立物理逻辑的连接，动态的将一个端口的数据转到另一个端口）
 
   - 电路交换。如果多台主机相连产生多条链路，会有共享的路段称中继线，这些如何共享：**多路复用**。<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-电路交换.PNG" width=66% height=66% />
   - 报文交换。一个完整的信息。存储转发。从一个路由转发到另一个路由需要完整的信息才能转发（串行）。而分组转发时每完成一个数据包就能转发一个数据包（并行）。<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-报文交换.PNG" width=66% height=66% />
-  - 分组交换。将报文拆分出来一系列小的数据包，再加一个头部信息。需要报文的拆分重组。不用事先分配好。分组传输时延=每组L(bits)的数据包/R(链路传输速率)，注意是bit为单位进行的计算。而分组交换的报文交换时间：`T=M/R+n*L/R`.其中n为路由器数。     
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-分组交换.PNG" width=100% height=100% />   过程：在分组交换网络中，分组到达路由器，路由器会按照存储转发的方式先收下来，收下来先暂存，确定了在哪一个链路转发后，在这个链路进行转发，如果这个链路正在转发别的分组，那就要排队等着。路由中供排队的缓存都是有限的，如果缓存满了，就会将这个分组丢弃，即数据包的丢失。中间的四种分组延迟：
-     - 结点处理延迟：分组到达路由器，路由器要对这个分组进行处理
-     - 排队延迟：当分组确定从某一链路传出，但这一链路刚好在传输其他的分组，就要在结点排队等待
-     - 传输延迟：当某一链路开始传输分组时，从分组的第一个bit开始到最后一个bit发完，需要的时间称为传输延迟。
-     - 传播延迟：当分组从某一结点发出后，到达下一个结点所花的时间。
+  - 分组交换。将报文拆分出来一系列小的数据包，再加一个头部信息。需要报文的拆分重组。不用事先分配好。分组传输时延=每组L(bits)的数据包/R(链路传输速率)，注意是bit为单位进行的计算。而分组交换的报文交换时间：`T=M/R+n*L/R`.其中n为路由器数。
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-分组交换.PNG" width=50% height=50% />
+
+过程：在分组交换网络中，分组到达路由器，路由器会按照存储转发的方式先收下来，收下来先暂存，确定了在哪一个链路转发后，在这个链路进行转发，如果这个链路正在转发别的分组，那就要排队等着。路由中供排队的缓存都是有限的，如果缓存满了，就会将这个分组丢弃，即数据包的丢失。中间的四种分组延迟：
+
+  - 结点处理延迟：分组到达路由器，路由器要对这个分组进行处理
+  - 排队延迟：当分组确定从某一链路传出，但这一链路刚好在传输其他的分组，就要在结点排队等待
+  - 传输延迟：当某一链路开始传输分组时，从分组的第一个bit开始到最后一个bit发完，需要的时间称为传输延迟。
+  - 传播延迟：当分组从某一结点发出后，到达下一个结点所花的时间。
 >扩展：   
 >1、端系统通过接入ISP连接到Internet。(Internet Service Provider)，互联网服务提供商。   
 >2、链路的时延带宽积：以比特为单位的链路长度。计算：传播时延X带宽(R)。   
@@ -61,45 +64,57 @@
 
 #### 1.3.2、OSI参考模型
 
-- OSI解释的通信过程，如下图所示：<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/2分层体系结构通信过程.PNG" width=80% height=80% />
-- **数据封装**与通信过程，如下图所示：<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/2分层体系结构通信过程数据封装.PNG" width=80% height=80% />
-- 物理层：概括的说是实现bit流在物理介质上的传输。 
+1)OSI解释的通信过程，如下图所示：
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/2分层体系结构通信过程.PNG" width=65% height=65% />
+- **数据封装**与通信过程，如下图所示：
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/2分层体系结构通信过程数据封装.PNG" width=70% height=70% />
+
+2)物理层：概括的说是实现bit流在物理介质上的传输。 
    - 定义、规范接口特性：主机跟发送设备之间的接口、发送设备跟物理介质之间的接口。
    - 比特的编码：用信号的什么特征来表示比特。
    - 数据率。
    - 比特同步：解决时钟同步问题。
    - 传输模式：按什么方式传输：单工（单向），半双工（可以双向，只能交替进行）、全双工
-- 数据链路层：解决物理链路直接相连的2个相邻节点之间的数据传输，以帧为数据单元传输。
+   
+3)数据链路层：解决物理链路直接相连的2个相邻节点之间的数据传输，以帧为数据单元传输。
    - 负责节点与节点的数据传输
    - 组帧：目的在于让接受一端从物理层接受到一系列比特流的时候，能成功切分出来不同的帧。 
    - 物理寻址：在帧头增加发送端或接受端的物理地址标识数据帧的发送端/接收端。
    - 流量控制：匹配发送端与接收端的发送速度与接受速度。
    - 差错控制：检测并重传损坏或丢失帧，并避免重复帧。
    - 访问控制：在任一给定时刻决定哪个设备拥有链路控制权。
-- 网络层：负责源主机到目的主机数据分组交付。
+   
+4)网络层：负责源主机到目的主机数据分组交付。
    - 可能跨越多个网络，因此链路层的物理寻址就不管用了，因此需要逻辑寻址——全局唯一逻辑地址，确保数据分组被送达目的主机，如IP地址。
    - 路由：帮助数据分组选路径。
-- 传输层：负责源-目的（端到端）进程间的完整报文传输。即，将会话层给的完整报文，分割成数据段，交给网络层进行传输。
+   
+5)传输层：负责源-目的（端到端）进程间的完整报文传输。即，将会话层给的完整报文，分割成数据段，交给网络层进行传输。
    - 报文的分段与重组。
    - SAP寻址。既然是进程到进程之间，因此需要确保将完整报文提交给正确进程，如端口号。
    - 连接控制。端到端的连接建立。
    - 流量控制
    - 差错控制
-- 会话层：接受表示层，构造会话层的数据单元。注意：不会进行分割。
+   
+6)会话层：接受表示层，构造会话层的数据单元。注意：不会进行分割。
    - 对话控制。
    - 同步。在数据流中插入同步点。
-- 表现层：处理2个系统之间交换信息的语法语义问题。 
+   
+7)表现层：处理2个系统之间交换信息的语法语义问题。 
    - 数据表示转化。将数据转换为独立编码，与主机无关。
    - 加密解密
    - 压缩解压缩。
-- 应用层：运行的应用。
+   
+8)应用层：运行的应用。
 
 >数据封装：增加控制信息，包括地址（标识发送端/接收端）、差错检测编码、以及协议控制（实现协议功能的附加信息，如优先级、服务质量、安全控制）
    
 
 #### 1.3.3、TCP/IP分层模型
 通信过程如下图所示：
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/2分层体系TCP.PNG" width=90% height=90% />
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/2分层体系TCP.PNG" width=70% height=70% />
 
 ## 二、TCP/IP分层模型
 
@@ -150,7 +165,9 @@
 3)Http连接的2种类型：
 
 - 非持久性连接：当用户在浏览器输入网址www.example.com/index.html 时过程如下图，缺点是慢，为每个TCP连接开销资源。 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4web应用tcp.png" width=100% height=100% />
-- 持久性连接：发送响应后服务器保持TCP连接的打开，后续HTTP消息可以通过这个连接发送，带流水机制的持久性连接是客户端只要遇到一个引用对象就尽快发出请求（所有引用对象一共耗时1个RTT），无流机制的持久性连接是只有前一个收到响应完成请求才发出新的请求（每个对象耗时1个RTT）。<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4web应用tcp时间.PNG" width=50% height=50% />
+- 持久性连接：发送响应后服务器保持TCP连接的打开，后续HTTP消息可以通过这个连接发送，带流水机制的持久性连接是客户端只要遇到一个引用对象就尽快发出请求（所有引用对象一共耗时1个RTT），无流机制的持久性连接是只有前一个收到响应完成请求才发出新的请求（每个对象耗时1个RTT）。
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4web应用tcp时间.PNG" width=35% height=35% />
 
 >RTT(round trip time)从客户端发送一个很小的数据包到服务器并返回，所经历的时间。
 
@@ -168,7 +185,7 @@
 - HTTP响应消息的cookie头部行
 - HTTP请求详细的cookie头部行
 - web服务器端的后台数据库   
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4web应用cookie.PNG" width=70% height=70% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4web应用cookie.PNG" width=63% height=63% />
 
 6)缓存/代理服务器技术
 
@@ -188,7 +205,8 @@
   - 头部行：To、From、Subject
   - 消息体：只能是ASCII字符。
   - MIME：为了支持多媒体二进制文件，在邮件头部增加额外的行以声明MIME的内容.下图为一个消息结构：
-  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4Email.PNG" width=70% height=70% />
+  
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4Email.PNG" width=65% height=65% />
 
 
 >与HTTP的对比：HTTP为pull,smtp为push.
@@ -198,8 +216,9 @@
 ### 2.1.3 DNS服务
 1、解决互联网上主机/路由器的识别问题。
 
-2、域名解析系统DNS将域名解析为IP地址。DNS采用分布式层次数据库，如下图。
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS数据库.PNG" width=70% height=70% />
+2、域名解析系统DNS将域名解析为IP地址。DNS采用分布式层次数据库，如下图:
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS数据库.PNG" width=65% height=65% />
 
 **当客户端查询www.amazon.com时**
 
@@ -208,7 +227,7 @@
 - 权威域名服务器：客户端查询Amazon.com域名解析服务器，获得www.amazon.com的IP地址。
 - 本地域名服务器：不在上述的层次结构中，当主机进行DNS查询时，查询被发送到本地域名服务器。有２种查询方式：迭代与递归查询.
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS查询之迭代.PNG" width=50% height=50% /><img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS查询之递归.PNG" width=49% height=50% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS查询之迭代.PNG" width=35% height=35% /><img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS查询之递归.PNG" width=35% height=35% />
 
 >DNS做负载均衡：对于一个大的门户网站，在DNS服务器中为同一个主机名配置多个IP地址，当进行域名向IP地址的翻译时，将以DNS文件中主机记录的IP地址按顺序返回不同的解析结果，将客户端的访问引导到不同的机器上去
 
@@ -269,7 +288,7 @@ DNS协议：查询和回复协议。
 
 洪泛式索引，Query Flooding，完全分布式架构，每个节点对他共享的文件进行索引，且只对他共享的文件进行索引。
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/5P2P之泛洪.PNG" width=50% height=50% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/5P2P之泛洪.PNG" width=35% height=35% />
 
 过程：
 
@@ -284,21 +303,21 @@ DNS协议：查询和回复协议。
 
 1、如下图，表面上是应用进程之间通过应用层协议在控制，其实还是通过操作系统在控制数据交换，因此应用层需要将数据传输到下一层，故需要接口来完成应用进程与底层交互。 该接口称为应用编程接口API。常见的接口有：socket、WinSock、TLI。
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket.PNG" width=66% height=66% />
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket类型.PNG" width=66% height=66% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket.PNG" width=50% height=50% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket类型.PNG" width=50% height=50% />
 
 2、如何标识socket
 
 - 标识通信端点（对外）：IP地址+端口号。
 - 在操作系统/进程层面上（对内）：当应用程序创建socket时，操作系统分配一个数据结构存储该socket的相关信息，并返回一个socket descripter。即一个网络应用进程利用socket descripter(套接字描述符，小整数)引用其创建的一个Socket。如下图：
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket数据结构.PNG" width=66% height=66% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket数据结构.PNG" width=50% height=50% />
 
 >使用TCP/IP协议簇的网络应用程序声明**端点地址**变量时专门定义了数据结构sockaddr_in
 
 3、winSock独有的函数
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket过程.PNG" width=66% height=66% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/6socket过程.PNG" width=45% height=45% />
 
 - WSAStartUp,初始化winSock的API。进行网络编程的应用程序在使用socket之前必须首先调用该函数。参数：
   - 第一个参数指明程序请求使用的winSock的版本
