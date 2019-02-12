@@ -489,6 +489,8 @@ DNS协议：查询和回复协议。
 
 1)滑动窗口协议概念：GBN，SR。窗口，即允许使用的序列号范围，窗口尺寸N表示最多N个等待确认的消息。滑动窗口：随着协议的运行，窗口在序列号空间内向前滑动。如下图，send_base下标黄色表示已经发送但还未确认的消息，nextseqnum下标蓝色表示还未使用的，当被完全使用后必须等所有确认了才能发送下一组N（其实只要收到ACK就进行滑动，但是虽然下一个N可以发送但由于当前N还有未确认的，因此依然拒收，只有当前N全部确认才处理下一个N）。
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/7传输层之滑动窗口概念.PNG" width=45% height=45% />
+
 2)GBN协议，Go-Back-N
 
 - 发送方
@@ -499,19 +501,25 @@ DNS协议：查询和回复协议。
      - 如果`nextseqNum<send_base+N`,说明窗口还没有用光，可继续发分组。发送分组后判断如果`nextseqNum=send_base`，启动定时器，也就是说在一个新的窗口从该窗口第一个分组发出的时候启动定时器。
      - 如果窗口序列号已经用光，拒绝发送数据。当发生timeout时重启定时器，将未确认的重新发一遍。当收到确认消息的时候，提取确认消息的序列号，更新send_base进行滑动。当`nextseqNum=send_base`时分组全部发送确认成功，停止计时器，否则重启计时器。
      - 问题：这里收到分组确认消息一定是按序列号顺序发过来的吗
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/7传输层之滑动GBN.PNG" width=55% height=55% />
 - 接收方
   - ACK机制：发送拥有最高序列号的，已被正确接收的分组的ACK.
   - 乱序到达的分组：例如等待5号但7号缺先到了，直接丢弃。并重新确认序列号最大的，按序到达的分组。因此这里其实是确认4，也就是1-4确认收到。
   - 接收过程：维护expectedSeqnum,如果正确接收，更新expectedSeqnum的值。这样就解决了上面发送方的问题。
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/7传输层之滑动GBN接收.PNG" width=63% height=63% />
 - GBN示例，N=4：
   - 发送方：发01，2丢失，发3，45等待。当01确定了，45可以发（滑动了），但接收方丢弃（因为期望是2）。直到超时，重发2345（将发送但未确认的重发）.
   - 接收方：初始expectedSeqnum=0。期待0，收到0后expectedSeqnum更新为1，收到1后expectedSeqnum更新为2。收到3，因此丢弃并发ACK1，表明01确认，记住，敢发就敢表明之前的已确定。直到收到2，expectedSeqnum更新为3.开始接收3.
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/7传输层之滑动窗口GBN示例.PNG" width=42% height=42% />
 
-3)SR协议，selective　Repeat。接收方对每个分组单独进行确认（设置缓存机制，缓存乱序到达的分组），发送方只重传那些没收到ACK的分组（为每个分组设置定时器）。过程如下。
+3)SR协议，selective　Repeat。接收方对每个分组单独进行确认（设置缓存机制，缓存乱序到达的分组），发送方只重传那些没收到ACK的分组（为每个分组设置定时器）。过程如下：
 
 - 发送方：发送玩0123后等待，其中2丢失。收到ACK01后滑动，可以发送45.2的超时发生，重发2.已经收到了ACK345，当收到ACK2后就可以滑动。
 - 接收方：收到01后发送ACK01，滑动，2丢失因此没收到，收到3，缓存并发送ACK3，收到45，缓存发ACK45。收到2后发ACK，且满了就一起交付上层，窗口可以滑动。
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/7传输层之SR过程.PNG" width=75% height=75% />
 - 困境：如下图。若采用n比特对帧编号，为了保证接收方向向前移动窗口后，新窗口序号与旧窗口序号没有重叠部分，需要满足条件：Nr+Ns<=2^n。单个最大就是2^(n-1)。
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/7传输层之滑动SR.PNG" width=50% height=50% />
+
 >如果序列号是2位比特表示，就是00，01，10，11，就是有0123这四种序列号可用。
 
 
@@ -524,9 +532,6 @@ DNS协议：查询和回复协议。
 
 
 
-
-
-
 #### 2.2.5、TCP面向连接的传输协议
 1)点对点，流水线机制，发送/接收方缓存。
 
@@ -534,17 +539,22 @@ DNS协议：查询和回复协议。
 
 - 序列号。segment中第一个字节的编号，而不是segment的编号（比如1k的数据分成2个segment，则该序列号一般是500）。建立TCP连接时双方随机选择序列号，这里序列号只用于建立连接3次握手时使用，传输数据可不是这样随机的。
 - ACKs是希望接收到的下一个字节的序列号。也采用累计确认的方式：该序列号**之前**的所有字节均正确接收到。对乱序到达的segment，这里不做处理，由实现者做出决策。
-- 过程：由telnet来模拟，A输入"C"后B收到后会回传。首先A发出序列号42的段，期望收到的段是79，这两个数字是随机选出。
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层TCP段结构.PNG" width=58% height=58% />
+- 过程：由telnet来模拟，A输入"C"后B收到后会回传。首先A发出序列号42的段，期望收到的段是79，这两个数字是随机
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层TCP段结构过程.PNG" width=35% height=35% />
 
 3)TCP可靠数据传输
 
 - 发送方。创建segment，开启计时器，设置超时时间。处理情况：
   - 超时，重传引起超时的segment，重启定时器
-  - 收到ACK。如果确认收到此前未确认的segment，更新sendBase（累计确认因此靠谱），如果此时窗口还有未确认的分组，重启定时器。 
+  - 收到ACK。如果确认收到此前未确认的segment，更新sendBase（累计确认因此靠谱），如果此时窗口还有未确认的分组，重启定时器。
 - 接收方，主要是ACK的生成。
   - 顺序到达的段，延迟等待500ms。在等待时间内，如果没next的段，将发送ACK；如果有段来，立刻发送累积段的序列号。
   - 乱序到达的段，肯定有间隙，重复发送某ACK表示缺该段。
 - 过程，主要是第三个例子注意。发送端发送了一个92序列号8字节的段后下一个发送的肯定是序列号为100的段，因此虽然没收到ACK100，但是发送100序列号后收到了ACK120，更新sendBase=120。
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层TCP发送端流程.PNG" width=80% height=80% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层TCP段结构过程3.PNG" width=38% height=38% />
 
 >快速重传机制：在定时器超时之前进行重传。TCP的实现中，如果超时，超时时间间隔将重新设置，将超时时间间隔加倍，导致变大，重发丢失分组之前要等待很久。现在通过重复ACK检测分组丢失：如果发送方收到同一数据的3个ACK，则该数据之后的段已经丢失。
 
@@ -560,6 +570,9 @@ DNS协议：查询和回复协议。
 - server收到SYN后，分配缓存作为建立该TCP连接所占用的资源，响应SYNACK段(SYNACK=client发送的序列号+1，累计确认，注意是**之前**)，包含初始化的序列号表示期望的序列号段。
 - client收到SYNACK，发送ACK段(累计确认)，可能包含数据。
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层TCP的3次握手.PNG" width=49% height=49% />
+
+
 >TCP规定，SYN报文段（SYN=1的报文段）不能携带数据，但需要消耗掉一个序号。
 
 >为什么TCP客户端最后还要发送一次确认呢:主要防止已经失效的连接请求报文突然又传送到了服务器，从而产生错误。例子：如果客户端发送了请求A超时但没丢失，又发请求B，服务器跟请求B建立连接后关闭。现在A到达服务器，两次握手的机制将会让客户端和服务器再次建立连接。如果是3次握手，服务端接受到了那条失效报文并且回复了确认报文，但客户端不会回应，因此无效。
@@ -571,8 +584,12 @@ DNS协议：查询和回复协议。
 - client收到FIN后，发送ACK并进入等待状态：如果收到FIN会重新发送ACK以确保服务器收到ACK。
 - server收到ACK，关闭连接。
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层TCP的4次挥手.PNG" width=40% height=40% />
+
+
 client与server的状态图：
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层TCP的客户机状态转化.PNG" width=60% height=60% />
 
 > TCP规定，FIN报文段即使不携带数据，也要消耗一个序号。
 
@@ -584,9 +601,15 @@ client与server的状态图：
 
 2)场景一，vin为原始发送速率，vout为接收方接收速率，带宽为C，有2个发送方，因此每个发送速率vin最大为C/2。由于路由器的速度限制，即使无限缓存，到达的最大速度也无法超过路由器的速度，所以时延在拥塞发生的时候会无限增大。
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层拥塞场景1.PNG" width=50% height=50% />
+
 3)场景二，有丢失。vin'表示原始发送数据+重传的数据。
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层拥塞场景2.PNG" width=50% height=50% />
+
 4)场景三，A与C之间2个TCP连接，A发C，C发A。路由器有限缓存。有4个路由器。假如A传C的红线上A到第一个路由器已成功转发，但在第二个路由器发生了丢失，造成浪费：当分组被丢失时，任何用于该分组的“上游”传输能力全都被浪费掉，相当于白传了，浪费了资源和传输能力
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层拥塞场景3.PNG" width=50% height=50% />
 
 #### 2.2.7、拥塞控制算法
 1)方法一，端到端拥塞控制。端系统通过观察丢失、延迟等网络行为判断是否发生拥塞。TCP采用这种。
@@ -598,7 +621,7 @@ client与server的状态图：
 
 TCP拥塞控制算法如下图。
 
-
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层拥塞总结算法图解.PNG" width=50% height=50% /><img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层拥塞总结算法.PNG" width=50% height=50% />
 
 
 2)方法二，网络辅助拥塞控制。指示发送方应该采取何种速率。ATM采用这种。
@@ -623,7 +646,20 @@ RM，resource management，交换机设置RM cell的位：NI bit,速率不许增
 
 
 
-例题：
-
+## 例题：
+### 例题1：
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-例题.PNG" width=70% height=70% />
+
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-解答.PNG" width=70% height=70% />
+
+### 例题2：传输层之滑动GBN例题
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/7传输层之滑动GBN例题.PNG" width=70% height=70% />
+
+### 例题3：传输层拥塞总结算法例题
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层拥塞总结算法例题.PNG" width=70% height=70% />
+
+
+
+
+
+
