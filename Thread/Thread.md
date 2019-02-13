@@ -4,15 +4,15 @@
 - [创建线程](创建线程)
 - [线程安全](线程安全)
 - [join方法](join方法)
-- [ThreadLocal](ThreadLocal)
-- [Lock](Lock)
-- [AQS](AQS)
+- [ThreadLocal](threadLocal)
+- [Lock](lock)
+- [AQS](aqs)
 - [读写锁](读写锁)
-- [Condition](Condition)
-- [CountDownLatch](CountDownLatch)
-- [CyclicBarrier](CyclicBarrier)
-- [Semaphore](Semaphore)
-- [Exchanger](Exchanger)
+- [Condition](condition)
+- [CountDownLatch](countDownLatch)
+- [CyclicBarrier](cyclicBarrier)
+- [Semaphore](semaphore)
+- [Exchanger](exchanger)
 
 
 
@@ -286,7 +286,7 @@
 
 
 -------------------------------------------
-## Lock
+## lock
 1、使用Lock可以实现公平性。非阻塞获取锁、能被中断的获取锁、超时获取锁。
 
 2、线程的打扰机制：
@@ -334,7 +334,7 @@
 		    }  
 		}
 
-##AQS（AbstractQueuedSynchronizer）
+##aqs（AbstractQueuedSynchronizer）
 1、主要用以自定义同步器。维护了一个volatile int state（代表共享资源）和一个FIFO线程等待队列（多线程争用资源被阻塞时会进入此队列）。假设state=0表示同步状态可用（如果用于锁，则表示锁可用），state=1表示同步状态已被占用（锁被占用）。AQS定义两种资源共享方式：Exclusive（独占，排他，只有一个线程能执行，如ReentrantLock，Reentrant本身意思是重入）和Share（共享，多个线程可同时执行，如Semaphore/CountDownLatch）。
 
 2、自定义同步器实现时实现对应方法
@@ -709,7 +709,7 @@ AQS的子类Sync作为辅助类，实现对tryAcquire方法重写：
             return true;
         }
 
-## Condition
+## condition
 1、前面Lock接口其实还有一个方法没有讲，`Condition newCondition();`,返回一个Condition实例，这个实例与该lock绑定在一起。这个lock必须被当前线程持有，才能进入等待状态，对Condition＃await()的调用将在等待之前以原子方式释放锁，并在等待返回之前重新获取锁。对于signal的调用。如果任何线程正在条件等待，当一个线程signal进行唤醒。 然后该线程必须在从await返回之前重新获取锁。
 
 2、ConditionObject类是AQS的内部类，实现了Condition接口。**使用场景**：经典问题，三个线程依次打印ABC。详细见https://www.cnblogs.com/shijiaqi1066/p/3412346.html
@@ -784,7 +784,7 @@ AQS的子类Sync作为辅助类，实现对tryAcquire方法重写：
 		            }
 		}
 
-## CountDownLatch
+## countDownLatch
 1、文档：一个同步辅助类，在完成一组正在其他线程中执行的操作之前，它允许一个或多个线程一直等待。CountDownLatch是通过一个计数器来实现的，计数器的初始值为线程的数量。每当一个线程完成了自己的任务后，计数器的值就会减1。当计数器值到达0时，它表示所有的线程已经完成了任务，然后在闭锁上等待的线程就可以恢复执行任务。
 
 2、文档实例1，启动信号，在driver为继续执行worker做好准备之前，它会阻止所有的worker继续执行。完成信号，它允许driver在完成所有worker之前一直等待。
@@ -829,7 +829,7 @@ AQS的子类Sync作为辅助类，实现对tryAcquire方法重写：
 - 开始执行前等待n个线程完成各自任务：例如应用程序启动类要确保在处理用户请求前，所有N个外部系统已经启动和运行了。
 
 
-## CyclicBarrier
+## cyclicBarrier
 1、文档：一个同步辅助类，它允许一组线程互相等待，直到到达某个公共屏障点 (common barrier point)。在涉及一组固定大小的线程的程序中，这些线程必须不时地互相等待，此时 CyclicBarrier 很有用（类似开会时必须等人到齐后才能继续每个人发言）。因为该 barrier 在释放等待线程后可以重用，所以称它为循环的 barrier。
 
 2、CyclicBarrier 支持一个可选的 Runnable 命令，在一组线程中的最后一个线程到达之后（但在释放所有线程之前），该命令只在每个屏障点运行一次。若在继续所有参与线程之前更新共享状态，此屏障操作很有用。文档实例：
@@ -876,7 +876,7 @@ AQS的子类Sync作为辅助类，实现对tryAcquire方法重写：
 	 }
 在这个例子中，每个 worker 线程处理矩阵的一行，在处理完所有的行之前，该线程将一直在屏障处等待。处理完所有的行之后，将执行所提供的 Runnable 屏障操作，并合并这些行。如果合并者确定已经找到了一个解决方案，那么 done() 将返回 true，所有的 worker 线程都将终止。
 
-## Semaphore
+## semaphore
 1、文档：通常用于限制可以访问某些资源（物理或逻辑的）的线程数目。不使用实际的许可对象，Semaphore只对可用许可的号码进行计数，并采取相应的行动。调用 acquire() 时无法保持同步锁，因为这会阻止将项返回到池中
 
 2、文档例子：
@@ -929,7 +929,7 @@ AQS的子类Sync作为辅助类，实现对tryAcquire方法重写：
 从池拿东西的时候getItem，每个线程必须从信号量获取许可，从而保证可以使用该项。该线程结束后，将项返回到池中并将许可返回到该信号量，从而允许其他线程获取该项。
 
 
-## Exchanger
+## exchanger
 1、一般用于两个工作线程之间交换数据。
 
 2、文档案例：
