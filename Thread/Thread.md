@@ -1,18 +1,18 @@
 学习地址：https://www.bilibili.com/video/av35364272/?p=4
 
-- [停止线程](停止线程)
-- [创建线程](创建线程)
-- [线程安全](线程安全)
-- [join方法](join方法)
-- [ThreadLocal](threadLocal)
-- [Lock](lock)
-- [AQS](aqs)
-- [读写锁](读写锁)
-- [Condition](condition)
-- [CountDownLatch](countDownLatch)
-- [CyclicBarrier](cyclicBarrier)
-- [Semaphore](semaphore)
-- [Exchanger](exchanger)
+- [停止线程](#停止线程)
+- [创建线程](#创建线程)
+- [线程安全](#线程安全)
+- [join方法](#join方法)
+- [ThreadLocal](#threadLocal)
+- [Lock](#lock)
+- [AQS](#aqs)
+- [读写锁](#读写锁)
+- [Condition](#condition)
+- [CountDownLatch](#countDownLatch)
+- [CyclicBarrier](#cyclicBarrier)
+- [Semaphore](#semaphore)
+- [Exchanger](#exchanger)
 
 
 
