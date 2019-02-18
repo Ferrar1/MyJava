@@ -954,9 +954,9 @@ Bellman-Ford动态规划
 
 ## 例题：
 ### 例题1：
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-例题.PNG" width=70% height=70% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-例题.PNG" width=65% height=65% />
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-解答.PNG" width=70% height=70% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/1网络核心-解答.PNG" width=65% height=65% />
 
 ### 例题2：传输层之滑动GBN例题
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/7传输层之滑动GBN例题.PNG" width=70% height=70% />
