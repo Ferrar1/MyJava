@@ -743,27 +743,28 @@ IP分片过程:如果IP分组总长度L，MTU为M。如果L>M,DF=0,则可以分�
 
   可以计算下图中的IP分片数据：
 
-  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层IP分片示例7" width=65% height=65% />
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层IP分片示例7.PNG" width=60% height=60% />
   
 >MTU，最大传输单元，网络链路存在MTU，即链路层数据帧可封装数据的上限。当大IP分组向较小MTU链路转发时，可以被分片，只有IP分片到达目的主机后才进行重组。
 
-3)IP编址
+3. IP编址
 
-接口：主机/路由器与物理链路的连接。如果这些接口实现了网络层功能，才进行编址。
+   接口：主机/路由器与物理链路的连接。如果这些接口实现了网络层功能，才进行编址。
 
-IP地址：32比特(ipv4),编号标识主机路由器的接口。从网络层的角度来看，通过这些IP地址唯一标识这些接口。将IP地址分为网络号NetID（高比特位）和主机号HostID（低比特位）。
+   IP地址：32比特(ipv4),编号标识主机路由器的接口。从网络层的角度来看，通过这些IP地址唯一标识这些接口。将IP地址分为网络号NetID（高比特位）和主机号HostID（低比特位）。
 
-IP子网：IP地址具有相同NetID的设备接口。这些子网中的设备不跨越路由器(第三及以上网络设备)就可以彼此物理联通。
+   IP子网：IP地址具有相同NetID的设备接口。这些子网中的设备不跨越路由器(第三及以上网络设备)就可以彼此物理联通。
 
-4)有类编址
+4. 有类编址
 
 - A类地址第一字节的最高位固定为0
 - B类地址第一字节的高两位为10，故1000000以128开头
 - C类地址的第一字节的高三位固定为110，故11000000以192开头
 - D类地址第一字节的高四位固定为1110。组播地址
 - E类地址的一字节的最高四位固定为1111
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层IP有类编址8.PNG" width=80% height=80% />
 
-5)子网划分：如何区分一个IP子网更小范围网络。现在将IP地址分为NetID，SubID子网号，HostID。
+5. 子网划分：如何区分一个IP子网更小范围网络。现在将IP地址分为NetID，SubID子网号，HostID。
 
 - 方式：借用主机中的某些比特来进行划分。
 - 如何确定是否划分子网。利用子网掩码。
@@ -772,19 +773,25 @@ IP子网：IP地址具有相同NetID的设备接口。这些子网中的设备�
 
 >子网掩码的值：NetID、SubID位全部取1，HostID全取0。因此A默认子网掩码255.0.0.0依次类推。
 
-例如：子网201.2.3.0，255.255.255.0。将其划分为4个等长子网。如下图：
+   例如：子网201.2.3.0，255.255.255.0。将其划分为4个等长子网。如下图：
+   
+   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层IP子网掩码9.PNG" width=50% height=50% />
 
-子网掩码的应用：将IP分组的目的IP地址与子网掩码**按位与**运算，提取子网地址。示例如下：
+   子网掩码的应用：将IP分组的目的IP地址与子网掩码**按位与**运算，提取子网地址。示例如下：
+   
+   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层IP子网掩码的应用10.PNG" width=50% height=50% />
 
 >可分配地址范围：去掉主机全为0与全为1的。
 
-6)CIDR
+6. CIDR
 
-有类编址存在分配不均等问题，提出新的技术CIDR，classless interDomian Routing，无类域间路由。特点是：
+   有类编址存在分配不均等问题，提出新的技术CIDR，classless interDomian Routing，无类域间路由。特点是：
 
-- 消除ABC地址界限：NetID+SubID->Network Prefis，其中前缀可以任意长度。
-- 融合子网地址与子网掩码：无类地址格式：a.b.c.d/x,x为前缀长度。例如：`子网201.2.3.64，255.255.255.192->201.2.3.64/26`
-- 提高路由效率，将多个子网聚合为一个大子网，路由聚集。 注意：在聚合时判断聚合子网是否缺少某一子网，如果缺少，在同一路由器里面有2个入口，通过他的前缀长度进行区分。
+      - 消除ABC地址界限：NetID+SubID->Network Prefis，其中前缀可以任意长度。
+      - 融合子网地址与子网掩码：无类地址格式：a.b.c.d/x,x为前缀长度。例如：`子网201.2.3.64，255.255.255.192->201.2.3.64/26`
+      - 提高路由效率，将多个子网聚合为一个大子网，路由聚集。 注意：在聚合时判断聚合子网是否缺少某一子网，如果缺少，在同一路由器里面有2个入口，通过他的前缀长度进行区分。
+      
+        <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层IP路由聚合11.PNG" width=50% height=50% />
 
 #### dhcp协议
 DHCP，Dynamic Host Configuration Protocol，动态主机配置协议。特点：
@@ -800,6 +807,8 @@ DHCP，Dynamic Host Configuration Protocol，动态主机配置协议。特点�
 - DHCP服务器利用DHCP offer（提供报文）进行响应
 - 主机请求IP地址DHCP　request（请求报文）
 - DHCP服务器分配IP地址DHCP ack（确认报文）
+
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层DHCP过程12.PNG" width=66% height=66% />
 
 #### nat网络地址转换
 目的：
@@ -837,6 +846,8 @@ NAT穿透问题：当外部客户端期望连接内网地址为10.0.0.1的服务
 - 网络探询
   - 回声Echo请求与应答报文Reply。例如Ping
   - 时间戳请求与应答。 
+  
+  <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层ICMP13.PNG" width=50% height=50% />
 
 不发送ICMP的情况：
 
@@ -847,12 +858,15 @@ NAT穿透问题：当外部客户端期望连接内网地址为10.0.0.1的服务
 
 ICMP路径探测应用：
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层ICMP应用14.PNG" width=60% height=60% />
 
 
 
 #### ipv6
 动机：32位IPv4地址空间分配殆尽。改进首部格式。128位。
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层ipv6结构.PNG" width=50% height=50% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层ipv6结构2后14.PNG" width=50% height=50% />
 IPv6数据格式特点：
 
 - 固定长度的40字节基本首部。
@@ -893,7 +907,11 @@ Dijkstra算法
 
 过程如下图所示：
 
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层路由算法DJ20.PNG" width=50% height=50% />
+
 跟普通的DJ算法不同，这里求的是u到每一个节点的最短路径，用于获取u的最终转发表：
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层路由算法DJ转发21.PNG" width=45% height=45% />
 
 >`c(x,y)`表示节点xy的链路权重，不直接相连就是无穷大。
 
@@ -946,6 +964,12 @@ Bellman-Ford动态规划
 ### 例题3：传输层拥塞总结算法例题
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层拥塞总结算法例题.PNG" width=70% height=70% />
 
+### 例题4：网络层
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层例题1.PNG" width=50% height=50% />
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层例题2.PNG" width=50% height=50% />
+
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层例题3.PNG" width=50% height=50% />
 
 
 
