@@ -12,7 +12,7 @@ idea:
 
 markdown：
 
-1.图片添加：
+1. 图片添加：
 
 - `<img src="https..." width = 30% height = 30% />`
 - `<div align=center>![这里写图片描述](http:...)`
