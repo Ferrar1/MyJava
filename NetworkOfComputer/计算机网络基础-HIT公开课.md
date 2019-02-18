@@ -965,11 +965,11 @@ Bellman-Ford动态规划
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/8传输层拥塞总结算法例题.PNG" width=70% height=70% />
 
 ### 例题4：网络层
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层例题1.PNG" width=50% height=50% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层例题1.PNG" width=70% height=70% />
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层例题2.PNG" width=50% height=50% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层例题2.PNG" width=70% height=70% />
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层例题3.PNG" width=50% height=50% />
+<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层例题3.PNG" width=70% height=70% />
 
 
 
