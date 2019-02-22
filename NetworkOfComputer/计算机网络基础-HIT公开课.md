@@ -871,7 +871,7 @@ NAT穿透问题：当外部客户端期望连接内网地址为10.0.0.1的服务
   - 参数问题。如果路由器发现Ip数据报头部某些数据有问题可以丢弃。
   - 重定向。路由器收到IP数据报，该IP数据报所要到达的目的网络，在该路由器看来不应该由自己发送，于是向源主机发送ICMP。
 - 网络探询
-  - 回声Echo请求与应答报文Reply。例如Ping
+  - 回声Echo请求与应答报文Reply。例如Ping，ping的话，由于不涉及数据传输，因此不涉及TCP或者UDP。
   - 时间戳请求与应答。 
   
   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层ICMP13.PNG" width=50% height=50% />
