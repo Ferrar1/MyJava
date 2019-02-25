@@ -278,7 +278,7 @@
     - 客户端查询根服务器，找到com域名解析服务器。
     - 顶级域名服务器负责com、cn等：客户端查询com域名解析服务器，找到Amazon.com域名解析服务器。该服务器一般被缓存在本地，因此根服务器不经常访问。
     - 权威域名服务器：客户端查询Amazon.com域名解析服务器，获得www.amazon.com的IP地址。
-    - 本地域名服务器：不在上述的层次结构中，当主机进行DNS查询时，查询被发送到本地域名服务器。有２种查询方式：迭代与递归查询.
+    - 本地域名服务器：作为默认域名服务器，不存在于上述的层次结构中。当主机进行DNS查询时，查询被发送到本地域名服务器，作为代理进行迭代或者递归查询.
 
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS查询之迭代.PNG" width=35% height=35% /><img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/4DNS查询之递归.PNG" width=35% height=35% />
 
