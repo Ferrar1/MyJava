@@ -116,4 +116,64 @@ getHandlerAdapter函数参数为handler，内部foreach对所有适配器进行�
 ## spring的AOP与IOC
 
 ## spring事务
-1. 
+1. [结论](http://blog.itpub.net/69900354/viewspace-2565243/)：
+   - 如果是编译时异常不会自动回滚，如果是运行时异常，那会自动回滚！
+   - 如果本类没有事务的方法调用有事务的方法，没有事务发生。下图7
+     
+			// 没有事务的方法去调用有事务的方法
+			public Employee addEmployee2Controller() throws Exception {
+
+			    return this.addEmployee();
+			}
+
+			@Transactional
+			public Employee addEmployee() throws Exception {
+
+			    employeeRepository.deleteAll();
+			    Employee employee = new Employee("3y", 23);
+
+			    // 模拟异常
+			    int i = 1 / 0;
+
+			    return employee;
+			}
+      <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/7-spring事务.png" width=50% height=50% />
+   - 如果被事务管理的对象是通过注入的方式，也就是经过spring管理的bean(属于代理对象)来执行事务方法，则是有事务的。
+   
+			@Service
+			public class TestService {
+			    @Autowired
+			    private EmployeeRepository employeeRepository;
+
+			    @Transactional
+			    public Employee addEmployee() throws Exception {
+
+				employeeRepository.deleteAll();
+
+				Employee employee = new Employee("3y", 23);
+
+				// 模拟异常
+				int i = 1 / 0;
+
+				return employee;
+			    }
+
+			}
+			@Service
+			public class EmployeeService {
+			    @Autowired
+			    private TestService testService;
+			    // 没有事务的方法去调用别的类有事务的方法
+			    public Employee addEmployee2Controller() throws Exception {
+				return testService.addEmployee();
+			    }
+			}
+			
+2. Spring事务传播机制
+   在当前含有事务方法内部调用其他的方法(无论该方法是否含有事务)，属于Spring事务传播机制的范畴.
+   
+   
+> 基于接口代理(JDK代理):凡是类的方法非public修饰，或者用了static关键字修饰，那这些方法都不能被Spring AOP增强
+> 基于CGLib代理(子类代理):凡是类的方法使用了private、static、final修饰，那这些方法都不能被Spring AOP增强
+
+>Spring IOC所管理的对象默认都是单例的，那么在使用的时候解决线程安全问题：ThreadLocal。
