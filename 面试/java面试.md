@@ -93,17 +93,17 @@
 3. 解析到对应的 Handler（也就是我们平常说的 Controller 控制器）后，开始由 HandlerAdapter 适配器处理：**处理器适配器的出现，是为了处理不同类型的Handler，这个类型指的是处理请求映射的方式**。有的是通过在类的上面加注解@Controller来进行映射处理。有的handler是通过实现Controller接口。（具体使用的时候就根据自己在配置文件中选择的适配器来选择配置相应的Handler）。源码中doDispatch方法：
    
     	HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
-getHandlerAdapter函数参数为handler，内部foreach对所有适配器进行遍历，每一个适配器都有support方法，输入handler是否是某一类型的实例，来判断是否支持某一类适配器。如SimpleControllerHandlerAdapter这个适配器return (handler instanceof Controller);说明适配器都是写好了的，需要新的bean加载方式就新建新的适配器。另外，HandlerAdapter这个接口有3个方法，主要是里面的handle方法。适配器的作用就是针对不同类型的handler，通过这个handle方法来执行控制器的具体逻辑。   
-例如：    
+   getHandlerAdapter函数参数为handler，内部foreach对所有适配器进行遍历，每一个适配器都有support方法，输入handler是否是某一类型的实例，来判断是否支持某一类适配器。如SimpleControllerHandlerAdapter这个适配器return (handler instanceof Controller);说明适配器都是写好了的，需要新的bean加载方式就新建新的适配器。另外，HandlerAdapter这个接口有3个方法，主要是里面的handle方法。适配器的作用就是针对不同类型的handler，通过这个handle方法来执行控制器的具体逻辑。   
+  例如：    
   
-  - 对于这种AbstractHandlerMethodAdapter，handle重写的内容是   
+    - 对于这种AbstractHandlerMethodAdapter，handle重写的内容是   
    
     		return handleInternal(request, response, (HandlerMethod) handler);    
-  - 而SimpleControllerHandlerAdapter，重写内容   
+    - 而SimpleControllerHandlerAdapter，重写内容   
 
      		return ((Controller) handler).handleRequest(request, response);
  
-    这就说明，适配器适配的是不同类型的handler。对应于不同处理请求映射的方式。
+   这就说明，适配器适配的是不同类型的handler。对应于不同处理请求映射的方式。
 4. HandlerAdapter 会根据 Handler 来调用真正的处理器开处理请求，并处理相应的业务逻辑：具体逻辑就在handle方法中。
 5. 处理器处理完业务后，会返回一个 ModelAndView 对象，Model 是返回的数据对象，View 是个逻辑上的 View。
 6. ViewResolver 会根据逻辑 View 查找实际的 View。
@@ -137,7 +137,7 @@ getHandlerAdapter函数参数为handler，内部foreach对所有适配器进行�
 
 			    return employee;
 			}
-      <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/7-spring事务.png" width=50% height=50% />
+      <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/7-spring事务.png" width=70% height=70% />
    - 如果被事务管理的对象是通过注入的方式，也就是经过spring管理的bean(属于代理对象)来执行事务方法，则是有事务的。
    
 			@Service
