@@ -246,7 +246,7 @@ EXT2、EXT3的区别如下：
    - 优化屏障：用于限制编译器的指令重排。
 2. 配对的读/写屏障才能保证正确的程序行为。左图中，CPU2上观察到x值为2, 无法保证其观察到的y值为1。
 
-   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/内存屏障1.png" width=45% height=45% /><img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/内存屏障2.png" width=45% height=45% />
+   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/内存屏障1.png" width=45% height=45% /><img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/内存屏障2.png" width=45% height=45% />
 ## vim
 ![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimtmp.png)
 ![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimCommand.png)
