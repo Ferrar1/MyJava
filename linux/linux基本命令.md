@@ -235,7 +235,18 @@ EXT2、EXT3的区别如下：
 4. 是否有Journal的差别：
    - 在ext2中，系统开机时会去检查有效位（Valid bit），如果值为1，表示系统上次有正常关机；如果为0，表示上次关机未正常关机，那系统就会从头检查硬盘中的资料，这样时间会很长；
    - 在ext3中，也就是有Journal机制里，系统开机时检查Journal的资料，来查看是否有错误产生，这样就快了很多；
+   
+ 
 
+## 内存屏障
+1. [种类](https://my.oschina.net/u/269082/blog/873612/)
+   - 写屏障：在写屏障之前的**所有写操作**指令都会在写屏障之后的**所有写操作**指令更早发生。
+   - 读屏障：在读屏障之前的**所有读操作**指令都会在读屏障之后的**所有读操作**指令更早发生.
+   - 通用屏障：在通用屏障之前的**所有写和读操作**指令都会在通用屏障之后的**所有写和读操作**指令更早发生。
+   - 优化屏障：用于限制编译器的指令重排。
+2. 配对的读/写屏障才能保证正确的程序行为。左图中，CPU2上观察到x值为2, 无法保证其观察到的y值为1。
+
+   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/内存屏障1.png" width=45% height=45% /><img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/内存屏障2.png" width=45% height=45% />
 ## vim
 ![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimtmp.png)
 ![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimCommand.png)
