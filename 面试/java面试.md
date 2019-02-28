@@ -118,56 +118,20 @@
 ## spring事务
 1. [结论](http://blog.itpub.net/69900354/viewspace-2565243/)：
    - 如果是编译时异常不会自动回滚，如果是运行时异常，那会自动回滚！
-   - 如果本类没有事务的方法调用有事务的方法，没有事务发生。下图7
-     
-			// 没有事务的方法去调用有事务的方法
-			public Employee addEmployee2Controller() throws Exception {
-
-			    return this.addEmployee();
-			}
-
+   - 如果本类没有事务的方法调用有事务的方法，没有事务发生。下面实例经过测试（tmall_springboot项目中可以看到），在UserService里面有下面2个方法添加用户：
+      
 			@Transactional
-			public Employee addEmployee() throws Exception {
-
-			    employeeRepository.deleteAll();
-			    Employee employee = new Employee("3y", 23);
-
-			    // 模拟异常
-			    int i = 1 / 0;
-
-			    return employee;
+			public void add(User user) {
+				userDAO.save(user);
+				int a = 10/0;//加事务后，模拟异常后回滚。
 			}
-      <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/7-spring事务.png" width=70% height=70% />
-   - 如果被事务管理的对象是通过注入的方式，也就是经过spring管理的bean(属于代理对象)来执行事务方法，则是有事务的。
-   
-			@Service
-			public class TestService {
-			    @Autowired
-			    private EmployeeRepository employeeRepository;
-
-			    @Transactional
-			    public Employee addEmployee() throws Exception {
-
-				employeeRepository.deleteAll();
-
-				Employee employee = new Employee("3y", 23);
-
-				// 模拟异常
-				int i = 1 / 0;
-
-				return employee;
-			    }
-
+			
+			public void Add(User user){
+				this.add(user);
 			}
-			@Service
-			public class EmployeeService {
-			    @Autowired
-			    private TestService testService;
-			    // 没有事务的方法去调用别的类有事务的方法
-			    public Employee addEmployee2Controller() throws Exception {
-				return testService.addEmployee();
-			    }
-			}
+       在ForeRESTController的register方法调用`userService.Add(user);`,结果是虽然报错，但数据成功插入，也就是没有事务执行；但是调用`userService.add(user);`，结果是报错且数据没有插入，也就是出现事务。
+    - 事务方法调用另一个事务方法，不会发生事务嵌套。[来源](https://www.jianshu.com/p/0da29e4f354a)
+    - 上面2种情况解决方案：可以通过在方法内部获得代理对象的方式，通过代理对象调用同类的其他方法。如果配置@EnableAspectJAutoProxy(exposeProxy = true)，则将`this.add(user)`改为`((UserService) AopContext.currentProxy()).add(user);`
 			
 2. Spring事务传播机制
    在当前含有事务方法内部调用其他的方法(无论该方法是否含有事务)，属于Spring事务传播机制的范畴.嵌套事务：嵌套是子事务套在父事务中执行，子事务是父事务的一部分，在进入子事务之前，父事务建立一个回滚点，叫save point，然后执行子事务，这个子事务的执行也算是父事务的一部分，然后子事务执行结束，父事务继续执行。重点就在于那个save point：
