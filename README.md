@@ -15,7 +15,7 @@
 1. 图片添加：
     - `<img src="https..." width = 30% height = 30% />`
     - `<div align=center>![这里写图片描述](http:...)`
-    - `<img src="https..." width = 50% height = 50% div align=right />`
+    - `<img src="<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/1-B+树插入过程.gif" width=50% height=50% />" width = 50% height = 50% div align=right />`
 
 
 ## java
