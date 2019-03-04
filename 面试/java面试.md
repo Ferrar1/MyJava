@@ -4,7 +4,7 @@
 - [操作系统](#操作系统)
 - [spring](#spring)
 - [集合框架](#集合框架)
-- [JVM](#)
+- [JVM](#jvm)
 
 # 计算机网络
 ## 浏览器从输入网址到显示都发生了些什么？
@@ -270,4 +270,14 @@
                     }
             }
 
-### TreeMap
+## ConCurrentHashMap
+1. 特性：
+   - JDK1.8底层是散列表+红黑树
+   - 支持高并发的访问和更新，线程安全
+   - 检索操作不用加锁，get方法非阻塞
+   - key和value都不允许为null
+    >Hashtable是在每个方法上都加上了Synchronized完成同步，效率低下。ConcurrentHashMap通过在部分加锁和利用CAS算法来实现同步。
+    
+    
+    
+# jvm
