@@ -253,6 +253,12 @@ EXT2、EXT3的区别如下：
 2. 配对的读/写屏障才能保证正确的程序行为。左图中，CPU2上观察到x值为2, 无法保证其观察到的y值为1。因为虽然a=1在b=2之前发生，但是有个前提**不保证内存屏障之前的内存操作在该内存屏障指令完成前完成，因为它保证的仅是相对顺序。**也就说有可能b=2结束了，a=1因为延迟等某些原因还没执行完。右图，加上读屏障后，先读b的值，接着读a的值，
 
    <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/内存屏障1.png" width=45% height=45% /><img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/内存屏障2.png" width=45% height=45% />
+   
+   
+## 软链接与硬链接
+1. 在Linux的文件系统中，保存在磁盘分区中的文件不管是什么类型都给它分配一个编号，称为索引节点号inode。
+2. 在Linux中，多个文件名指向同一索引节点是存在的。比如：A是B的硬链接（A和B都是文件名），则A的目录项中的inode节点号与B的目录项中的inode节点号相同，即一个inode节点对应两个不同的文件名，两个文件名指向同一个文件，A和B对文件系统来说是完全平等的。删除其中任何一个都不会影响另外一个的访问。
+3. A是B的软链接（A和B都是文件名），A的目录项中的inode节点号与B的目录项中的inode节点号不相同，A和B指向的是两个不同的inode，继而指向两块不同的数据块。但是A的数据块中存放的只是B的路径名（可以根据这个找到B的目录项）。A和B之间是“主从”关系，如果B被删除了，A仍然存在（因为两个是不同的文件），但指向的是一个无效的链接。
 ## vim
 ![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimtmp.png)
 ![image text](https://github.com/xuzhuang1996/MyJava/blob/master/img/linux/vimCommand.png)
