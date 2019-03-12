@@ -5,6 +5,7 @@
 - [spring](#spring)
 - [集合框架](#集合框架)
 - [JVM](#jvm)
+- [IO](#io)
 
 # 计算机网络
 ## 浏览器从输入网址到显示都发生了些什么？
@@ -466,3 +467,68 @@
 2. 扩展类加载器（Extension ClassLoader）：它负责加载\lib\ext
 3. 应用程序类加载器，负责加载用户类路径（ClassPath）上所指定的类库
 4. 双亲委派模型的工作过程： 如果一个类加载器收到了类加载的请求，先把这个请求委派给父类加载器去完成（所以所有的加载请求最终都应该传送到顶层的启动类加载器中），只有当父加载器反馈自己无法完成加载请求时，子加载器才会尝试自己去加载。
+
+## io
+
+### NIO
+1. Non-blocking，与IO的区别：
+   - IO是面向流的，NIO是面向缓冲区的。
+   - IO流是阻塞的，NIO流是不阻塞的。NIO中，一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。而IO则是：当一个线程调用read() 或 write()时，该线程被阻塞，直到有一些数据被读取，或数据完全写入。该线程在此期间不能再干任何事情了
+   - Selectors（选择器）。选择器用于使用单个线程处理多个通道。线程之间的切换对于操作系统来说是昂贵的。 选择器是一个可以监视多个通道的对象，使用Selector的话，我们必须把Channel注册到Selector上，然后就可以调用Selector的select()方法。这个方法会进入阻塞，直到有一个channel的状态符合条件。当方法返回后，线程可以处理这些事件
+
+#### Channel
+[来源](https://mp.weixin.qq.com/s?__biz=MzU4NDQ4MzU5OA==&mid=2247483966&idx=1&sn=d5cf18c69f5f9ec2aff149270422731f&chksm=fd98545fcaefdd49296e2c78000ce5da277435b90ba3c03b92b7cf54c6ccc71d61d13efbce63#rd)
+
+1. FileChannel： 用于文件的数据读写。使用：
+   - 开启FileChannel。无法直接打开抽象类FileChannel，需要通过 InputStream，OutputStream或RandomAccessFile获取FileChannel。
+   - 从FileChannel读取数据read()/写入数据write()
+   - 关闭FileChannel
+2. DatagramChannel： 用于UDP的数据读写
+   - 获取DataGramChannel
+   - 接收/发送消息
+3. SocketChannel： 用于TCP的数据读写，一般是客户端实现
+  - 通过SocketChannel连接到远程服务器
+  - 创建读数据/写数据缓冲区对象来读取服务端数据或向服务端发送数据
+  - 关闭SocketChannel
+4. ServerSocketChannel: 允许我们监听TCP链接请求，每个请求会创建会一个SocketChannel，一般是服务器实现
+   - 通过ServerSocketChannel 绑定ip地址和端口号
+   - 通过ServerSocketChannelImpl的accept()方法创建一个SocketChannel对象用户从客户端读/写数据
+   - 创建读数据/写数据缓冲区对象来读取客户端数据或向客户端发送数据
+   - 关闭SocketChannel和ServerSocketChannel
+5. Scatter / Gather
+   - Scatter: 从一个Channel读取的信息分散到N个缓冲区中(Buufer)
+      
+		     ByteBuffer header = ByteBuffer.allocate(128);
+			 ByteBuffer body = ByteBuffer.allocate(128);
+			 ByteBuffer [] array = {header,body}
+			 channel.read(array);
+			 //read()方法内部会负责把数据按顺序写进传入的buffer数组内。一个buffer写满后，接着写到下一个buffer中。
+			 //举个例子，假如通道中有200个字节数据，那么header会被写入128个字节数据，body会被写入72个字节数据；
+
+   - Gather: 将N个Buffer里面内容按照顺序发送到一个Channel.
+      >无论是scatter还是gather操作，都是按照buffer在数组中的顺序来依次读取或写入的
+
+6. 通道之间的数据传输。以上都是通道与缓冲的传输，通道之间可以传输。在Java NIO中如果一个channel是FileChannel类型的，那么他可以直接把数据传输到另一个channel。
+
+
+#### Selector（选择器）
+[来源](https://mp.weixin.qq.com/s?__biz=MzU4NDQ4MzU5OA==&mid=2247483970&idx=1&sn=d5e2b133313b1d0f32872d54fbdf0aa7&chksm=fd985423caefdd354b587e57ce6cf5f5a7bec48b9ab7554f39a8d13af47660cae793956e0f46#rd)
+
+1. 用于检查一个或多个NIO Channel（通道）的状态是否处于可读、可写。使用Selector的好处在于： 使用更少的线程来就可以来处理通道了， 相比使用多个线程，避免了线程上下文切换带来的开销。
+
+2. SelectionKey表示了一个特定的通道对象和一个特定的选择器对象之间的注册关系.
+
+
+### 问题：
+- System.out.println()是什么？println是PrintStream的一个方法。out是一个静态PrintStream类型的成员变量，System是一个java.lang包中的类，用于和底层的操作系统进行交互。
+- File类，它主要用于知道一个文件的属性，读写权限，大小等信息
+- RandomAccessFile，它在java.io包中是一个特殊的类，既不是输入流也不是输出流，它两者都可以做到。
+
+
+### AIO
+1. 特点：
+   - 读完后通知
+   - 不会加快IO，只是读完后进行通知
+   - 使用回调函数，进行业务处理。能够胜任那些重量级，读写过程长的任务
+
+
