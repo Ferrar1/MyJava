@@ -531,5 +531,19 @@
    - 读完后通知
    - 不会加快IO，只是读完后进行通知
    - 使用回调函数，进行业务处理。能够胜任那些重量级，读写过程长的任务
+   
+   
+   
+
+
+
+
+
+
+
+### 题：
+1. [TCP协议-如何保证传输可靠性](https://blog.csdn.net/liuchenxia8/article/details/80428157)
+2. [跳表]（https://www.cnblogs.com/seniusen/p/9870398.html）
+3. [非递归且不用额外空间（不用栈），如何遍历二叉树](https://blog.csdn.net/Darfie/article/details/53302104)
 
 
