@@ -548,5 +548,16 @@
 4. 操作系统的内存管理机制，待解决
 5. [快排](https://www.cnblogs.com/MOBIN/p/4681369.html)
 6. [OOM](https://www.jianshu.com/p/2fdee831ed03)：
+   - java.lang.OutOfMemoryError:Java heap space：
+     - 堆大小设置小了。解决办法：在IDEA的Run/Debug Configturations的VM中填写`-Xmx2014m`
+     - 内存泄漏：由于GC无法识别一些已经不再使用的对象，而这些未使用的对象一直留在堆空间中，这种堆积最终会导致OOM。
+   - java.lang.OutOfMemoryError:GC overhead limit exceeded。默认情况下，当应用程序花费超过98%的时间用来做GC并且回收了不到2%的堆内存时，会抛出该错误。具体的表现就是你的应用几乎耗尽所有可用内存，并且GC多次均未能清理干净。
+   - java.lang.OutOfMemoryError:Permgen space。表明持久代所在区域的内存已被耗尽。不过JDK8已经完全移除持久代空间：
+     - 如果只是空间小，`-XX:MaxPermSize=512m`
+     - 如果是Redeploy时的OutOfMemoryError，
+   - java.lang.OutOfMemoryError:Metaspace。太多的类或太大的类加载到元空间。
+     - 如果空间不够，`-XX：MaxMetaspaceSize = 512m`
+   - java.lang.OutOfMemoryError:Unable to create new native thread.意味着Java应用程序已达到其可以启动线程数量的极限了。
+   
 
 
