@@ -558,6 +558,7 @@
    - java.lang.OutOfMemoryError:Metaspace。太多的类或太大的类加载到元空间。
      - 如果空间不够，`-XX：MaxMetaspaceSize = 512m`
    - java.lang.OutOfMemoryError:Unable to create new native thread.意味着Java应用程序已达到其可以启动线程数量的极限了。
+7. [堆](https://www.jianshu.com/p/6b526aa481b1)
    
 
 
