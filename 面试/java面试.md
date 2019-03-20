@@ -586,6 +586,9 @@
      - 如果空间不够，`-XX：MaxMetaspaceSize = 512m`
    - java.lang.OutOfMemoryError:Unable to create new native thread.意味着Java应用程序已达到其可以启动线程数量的极限了。
 7. [堆](https://www.jianshu.com/p/6b526aa481b1)
+8. 局部变量使用前需要显式地赋值，否则编译通过不了，为什么这么设计：
+   - 成员变量赋值与取值的先后顺序具有不确定性，因此交给JVM去初始化
+   - 局部变量，其赋值与取值的访问顺序是确定的。这样做为了尽最大可能减少使用者犯错。
    
 
 
