@@ -565,7 +565,7 @@
 4. TCP/UDP流量的负载均衡
 
 
-## redis简介
+## redis
 redis快，基于内存，单线程，基于resp协议。
 可以将mysql中的数据，根据select语句做管道输入，将数据转入redis。
 
