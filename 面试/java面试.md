@@ -48,6 +48,18 @@
 2. Consistency（一致性），指数据库事务不能破坏关系数据的完整性以及业务逻辑上的一致性。比如对于入账出账操作是不会有总资金的变化的。
 3. Isolation（隔离性），表示各个事务之间不会互相影响，数据库一般会提供多种级别的隔离。实际上多个事务是并发执行的，但是他们之间不会互相影响。
 4. Durability（持久性），持久性表示一旦一个事务成功了，那么他的改变是永久性的被记录和操作。
+
+## sql语法：
+1. having，通常与GROUP BY语句联合使用，用来过滤由GROUP BY语句返回的记录集。如果想查询平均分高于80分的学生记录可以这样写，这里如果是where就出错：
+
+		SELECT id, COUNT(course) as numcourse, AVG(score) as avgscore
+
+		FROM student
+
+		GROUP BY id
+
+		HAVING AVG(score)>=80;
+
 ## mysql索引
 ### b加树简介
 1. 什么是B+树：[B+大致认识](https://blog.csdn.net/qq_26222859/article/details/80631121)
