@@ -668,7 +668,7 @@ redis快，基于内存，单线程，基于resp协议。
  
 3. 问题：一致性Hash算法在服务节点太少时，容易因为节点分部不均匀而造成数据倾斜（被缓存的对象大部分集中缓存在某一台服务器上）问题，为了解决这种数据倾斜问题，一致性Hash算法引入了虚拟节点机制，即对每一个服务节点计算多个哈希，每个计算结果位置都放置一个此服务节点，称为虚拟节点。具体做法可以在服务器IP或主机名的后面增加编号来实现。例如上面的情况，可以为每台服务器计算三个虚拟节点，于是可以分别计算 “Node A#1”、“Node A#2”、“Node A#3”、“Node B#1”、“Node B#2”、“Node B#3”的哈希值，于是形成六个虚拟节点：
 
-    <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/pp.png" width=50% height=50% />
+    <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/ppp.png" width=50% height=50% />
 
 
 ### 题：
