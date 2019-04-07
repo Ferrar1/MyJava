@@ -664,7 +664,7 @@ redis快，基于内存，单线程，基于resp协议。
    - 现假设Node C不幸宕机，可以看到此时对象A、B、D不会受到影响，只有C对象被重定位到Node D。一般的，在一致性Hash算法中，如果一台服务器不可用，则受影响的数据仅仅是此服务器到其环空间中前一台服务器（即沿着逆时针方向行走遇到的第一台服务器）之间数据，其它不会受到影响
    - 如果在系统中增加一台服务器Node X
    
-   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/pp.png" width=70% height=70% />
+      <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/pp.png" width=50% height=50% />
 
 
 ### 题：
