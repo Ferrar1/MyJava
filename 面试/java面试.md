@@ -68,7 +68,9 @@
     >树的度：一棵树中，最大的节点的度称为树的度
 2. [B+树插入过程](http://www.cnblogs.com/yangecnu/p/Introduce-B-Tree-and-B-Plus-Tree.html)如下图1：
     <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/1-B+树插入过程.gif" width=130% height=130% />
-3. 一般在数据库系统或文件系统中使用的B+Tree结构都在经典B+Tree的基础上进行了优化，增加了顺序访问指针。做法：在B+Tree的每个叶子节点增加一个指向相邻叶子节点的指针，就形成了带有顺序访问指针的B+Tree。做这个优化的目的是为了提高区间访问的性能，例如如果要查询key为从18到49的所有数据记录，当找到18后，只需顺着节点和指针顺序遍历就可以一次性访问到所有数据节点，极大提到了区间查询效率。如下图2：
+3. [B+的插入原则：](https://blog.csdn.net/sunshine_lyn/article/details/82747596)
+    <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/B+++.png" width=100% height=100% />
+4. 一般在数据库系统或文件系统中使用的B+Tree结构都在经典B+Tree的基础上进行了优化，增加了顺序访问指针。做法：在B+Tree的每个叶子节点增加一个指向相邻叶子节点的指针，就形成了带有顺序访问指针的B+Tree。做这个优化的目的是为了提高区间访问的性能，例如如果要查询key为从18到49的所有数据记录，当找到18后，只需顺着节点和指针顺序遍历就可以一次性访问到所有数据节点，极大提到了区间查询效率。如下图2：
 
     <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/2-B+树优化后.png" width=60% height=60% />
 ### mysQL索引实现
