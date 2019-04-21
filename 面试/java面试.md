@@ -694,6 +694,12 @@ redis快，基于内存，单线程，基于resp协议。
 
     <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/ppp.png" width=50% height=50% />
 
+### 持久化
+1. [RDB](https://segmentfault.com/a/1190000015983518)
+
+2. AOF
+
+3. 都是先写入一个临时文件，然后通过 rename 完成文件的替换工作。
 
 ### 题：
 1. [TCP协议-如何保证传输可靠性](https://blog.csdn.net/liuchenxia8/article/details/80428157)
