@@ -841,6 +841,11 @@ DHCP，Dynamic Host Configuration Protocol，动态主机配置协议。特点�
 
   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/9网络层DHCP过程12.PNG" width=66% height=66% />
 
+#### DDNS
+1. DDNS是将用户的动态IP地址映射到一个固定的域名解析服务上，用户每次连接网络的时候客户端程序就会通过信息传递把该主机的动态IP地址传送给位于服务商主机上的服务器程序，服务器程序负责提供DNS服务并实现动态域名解析。
+2. 服务作用
+   - 目前ISP大多提供动态IP（如拨号上网），我们若想在网际网络上以自己的网域公布，DDNS提供了解决方案，它可以自动更新用户每次变化的浮动IP，然后将其与网域相对应，这样其他上网用户就可以透过网域来交流了(来自百度，感觉适用于内网，但是上传的速率很低)
+   - 
 #### nat网络地址转换
 目的：
 
