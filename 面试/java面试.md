@@ -144,6 +144,7 @@
 2. 使用spring的好处：
    - 单例模式：有时候一些类是不需要多个对象的，例如数据库连接池的连接对象connection，只需要一个就好了。在spring里面，例如一些bean例如service层，完全可以交给spring容器管理。
    - 注入属性：之前如果不注入，就需要自己每次都new一个对象，现在Bean实现了 BeanFactoryAware 接口，则将容器的引用传入到 Bean 中去，这样，Bean 将获取对容器操作的权限，也就是可以根据bean的名字来获取容器中的对象。
+3. [源码分析](http://www.importnew.com/27469.html)
    
 ## springmvc流程
 1. 客户端发送请求，直接请求到DispatcherServlet。
