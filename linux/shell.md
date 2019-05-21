@@ -51,6 +51,10 @@
       - `if [[ $a -lt 100 && $b -gt 15 ]]`
       - &&
       - ||
+    - 一些点：
+       - -e filename 如果 filename存在，则为真
+       - -d filename 如果 filename为目录，则为真 
+       - -f filename 如果 filename为常规文件，则为真
 
     > 例子：`if[ $(ps -ef | grep -c "ssh") -gt 1];then echo "true"; fi`
 
