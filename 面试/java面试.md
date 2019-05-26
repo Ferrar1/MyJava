@@ -611,21 +611,21 @@
 1. redis快，基于内存，单线程，基于resp协议。可以将mysql中的数据，根据select语句做管道输入，将数据转入redis。
 2. 数据类型：
    - String
-     - SET name "runoob"
-     - GET name
-   - Hash
-     - HMSET myhash field1 "Hello" field2 "World"
-     - HGET myhash field1
-   - List
-     - lpush runoob redis
-     - lpush runoob mongodb
-     - lrange runoob 0 10    //取值
-   - Set
-     - sadd runoob mongodb   //添加
-     - smembers runoob    //取值
+     - `SET name "runoob"`
+     - `GET name`
+   - Hash,适合存储对象
+     - `HMSET myhash field1 "Hello" field2 "World"`
+     - `HGET myhash field1`
+   - List,增删快
+     - `lpush runoob redis`
+     - `lpush runoob mongodb`
+     - `lrange runoob 0 10`    //取值
+   - Set,添加、删除,查找的复杂度都是O(1),为集合提供了求交集、并集、差集等操作
+     - `sadd runoob mongodb`   //添加
+     - `smembers runoob`    //取值
    - zset(sorted set：有序集合)，不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。zset的成员是唯一的,但分数(score)却可以重复。
-     - zadd runoob 0 redis
-     - ZRANGEBYSCORE runoob 0 1000
+     - `zadd runoob 0 redis`
+     - `ZRANGEBYSCORE runoob 0 1000`
 
 ### redis做消息队列
 1. 通过2个命令实现pub/sub模式的消息通知
