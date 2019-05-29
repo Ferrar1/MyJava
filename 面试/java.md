@@ -97,6 +97,10 @@
    - `SELECT * FROM tbl LIMIT 5,10;  # Retrieve rows 6-15`
    - `LIMIT row_count OFFSET offset`这个offset是为了与别的数据库进行兼容。用`,`也行.
 4. 防止取出的数据为null，使用`IFNULL(语句，NULL)`
+5. if函数。mysql中if()函数的用法类似于java中的三目表达式
+   
+   		update salary
+		set sex=(if(sex='m','f','m'))
 ## 分库分表
 1. [来源](https://www.nowcoder.com/discuss/135748)
 2. 数据切分分为两种方式，纵向切分和水平切分
