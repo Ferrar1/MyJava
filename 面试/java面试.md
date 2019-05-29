@@ -78,6 +78,10 @@
      - `SELECT a.,b. FROM city as a FULL OUTER JOIN user as b ON a.username=b.username`
    - 交叉连接: 生成笛卡尔积－它不使用任何匹配或者选取条件，而是直接将一个数据源中的每个行与另一个数据源的每个行都一一匹配
      - `SELECT type,pub_name FROM titles CROSS JOIN publishers ORDER BY type`
+3. limit,初始行的偏移量为0，即limit的第一个参数类似数组。[求数据中的第二高的数据](https://leetcode-cn.com/problems/second-highest-salary/)
+   - `SELECT * FROM tbl LIMIT 5,10;  # Retrieve rows 6-15`
+   - `LIMIT row_count OFFSET offset`这个offset是为了与别的数据库进行兼容。用`,`也行.
+4. 防止取出的数据为null，使用`IFNULL(语句，NULL)`
 ## 分库分表
 1. [来源](https://www.nowcoder.com/discuss/135748)
 2. 数据切分分为两种方式，纵向切分和水平切分
