@@ -42,6 +42,21 @@
 - HTTP响应报文主要由状态行、响应头部、响应正文3部分组成
 - https://blog.csdn.net/a19881029/article/details/14002273
 
+## Http版本区别
+1. http 1.0
+   - 短连接。每一个请求建立一个TCP连接，请求完成后立马断开连接。这将会导致2个问题：
+     - 连接无法复用，每次请求都经历三次握手和慢启动。
+     - head of line blocking会导致带宽无法被充分利用
+2. http 1.1
+   - 长连接。通过http pipelining实现。多个http 请求可以复用一个TCP连接，服务器端按照FIFO原则来处理不同的Request
+   - 增加connection header。该header用来说明客户端与服务器端TCP的连接方式，若connection为close则使用短连接，若connection为keep-alive则使用长连接
+   - 身份认证
+   - 状态管理
+   - Cache缓存等机制相关的请求头和响应头
+3. http 2.0
+   - 多路复用 (Multiplexing).在 HTTP/1.1 协议中浏览器客户端在同一时间，针对同一域名下的请求有一定数量限制。超过限制数目的请求会被阻塞。而HTTP/2 的多路复用(Multiplexing) 则允许同时通过单一的 
+   - 二进制分帧。HTTP/2在 应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层。
+
 
 # 数据库
 ## ACID
