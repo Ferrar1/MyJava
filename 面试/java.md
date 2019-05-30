@@ -793,6 +793,10 @@
 3. [非递归且不用额外空间（不用栈），如何遍历二叉树](https://blog.csdn.net/Darfie/article/details/53302104)
 4. 操作系统的内存管理机制，待解决
 5. [快排](https://www.cnblogs.com/MOBIN/p/4681369.html)
+6. 其他排序：
+   - 插入排序。当待排序的数据基本有序时，插入排序的效率比较高，只需要进行很少的数据移动。
+   - 选择排序。遍历数组，遍历到i时，a0,a1...ai-1是已经排好序的，然后从i到n选择出最小的，记录下位置，如果不是第i个，则和第i个元素交换。
+   - 堆排序。
 6. [OOM](https://www.jianshu.com/p/2fdee831ed03)：
    - java.lang.OutOfMemoryError:Java heap space：
      - 堆大小设置小了。解决办法：在IDEA的Run/Debug Configturations的VM中填写`-Xmx2014m`
