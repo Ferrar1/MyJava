@@ -568,8 +568,11 @@
 ### 类加载器
 1. 启动类加载器（Bootstrap ClassLoader）将存放在\lib目录的类库加载到虚拟机内存中
 2. 扩展类加载器（Extension ClassLoader）：它负责加载\lib\ext
-3. 应用程序类加载器，负责加载用户类路径（ClassPath）上所指定的类库
+3. 应用程序类加载器AppClassLoader，负责加载用户类路径（ClassPath）上所指定的类库,
 4. 双亲委派模型的工作过程： 如果一个类加载器收到了类加载的请求，先把这个请求委派给父类加载器去完成（所以所有的加载请求最终都应该传送到顶层的启动类加载器中），只有当父加载器反馈自己无法完成加载请求时，子加载器才会尝试自己去加载。
+5. [如何打破该机制](https://blog.csdn.net/zhouxcwork/article/details/81566636)：
+   - 沿用双亲委派机制自定义类加载器很简单，只需继承ClassLoader类并重写findClass方法即可。此方法要做的事情是读取Test.class字节流并传入父类的defineClass方法即可。
+   - 打破：除了重写findClass方法外还重写了loadClass方法，默认的loadClass方法是实现了双亲委派机制的逻辑，即会先让父类加载器加载，当无法加载时才由自己加载。这里为了破坏双亲委派机制必须重写loadClass方法，即这里先尝试交由System类加载器加载，加载失败才会由自己加载。它并没有优先交给父类加载器，这就打破了双亲委派机制。
 
 ## io
 
