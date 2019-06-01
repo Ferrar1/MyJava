@@ -113,6 +113,8 @@
    - `group by`分组,必须要用聚合函数
       - group by 可以实现一个最简单的去重查询
       - 分组后的条件使用 HAVING 来限定，WHERE 是对原始数据进行条件限制。这里分组，比如统计网站用户点击方式，用name来作为分组字段，然后对某一用户行为进行统计
+      
+7. `datediff(date1,date2)`输出date1-date2的天数。有正负之分。[用途](https://leetcode-cn.com/problems/rising-temperature/submissions/)
 ## 分库分表
 1. [来源](https://www.nowcoder.com/discuss/135748)
 2. 数据切分分为两种方式，纵向切分和水平切分
