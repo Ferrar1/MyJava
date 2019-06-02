@@ -122,6 +122,15 @@
   			when sex = '1' then '男'
   			when sex = '2' then '女'
 		else '未知' end
+		//实际例子
+		update salary
+		set sex=(
+		    CASE 
+			when sex="m" then "f"
+		    else
+			"m"
+		    end
+		)
 ## 分库分表
 1. [来源](https://www.nowcoder.com/discuss/135748)
 2. 数据切分分为两种方式，纵向切分和水平切分
