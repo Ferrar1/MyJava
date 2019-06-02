@@ -116,6 +116,12 @@
       
 7. `datediff(date1,date2)`输出date1-date2的天数。有正负之分。[用途](https://leetcode-cn.com/problems/rising-temperature/submissions/)
 8. `distinct`，筛掉重复的。主要是放的位置，可以放在select后面的列前面。也可以如：`count(distinct student)>=5`
+9. `case`.Case函数只返回第一个符合条件的值，剩下的Case部分将会被自动忽略。Case when 相当于一个自定义的数据透视表，group by 是行名，case when 负责列名。
+	
+		case 
+  			when sex = '1' then '男'
+  			when sex = '2' then '女'
+		else '未知' end
 ## 分库分表
 1. [来源](https://www.nowcoder.com/discuss/135748)
 2. 数据切分分为两种方式，纵向切分和水平切分
