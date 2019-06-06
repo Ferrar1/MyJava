@@ -569,6 +569,7 @@
       - 发送方：发01，2丢失，发3，45等待。当01确定了，45可以发（滑动了），但接收方丢弃（因为期望是2）。直到超时，重发2345（将发送但未确认的重发）.
       - 接收方：初始expectedSeqnum=0。期待0，收到0后expectedSeqnum更新为1，收到1后expectedSeqnum更新为2。收到3，因此丢弃并发ACK1，表明01确认，记住，敢发就敢表明之前的已确定。直到收到2，expectedSeqnum更新为3.开始接收3.
       <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/7传输层之滑动窗口GBN示例.PNG" width=42% height=42% />
+      >如果序列号有K bits，那么这个ARQ的协议大小为：2^k-1
 
 3. SR协议，selective　Repeat。接收方对每个分组单独进行确认（设置缓存机制，缓存乱序到达的分组），发送方只重传那些没收到ACK的分组（为每个分组设置定时器）。过程如下：
 
