@@ -648,6 +648,8 @@
    - 通过ServerSocketChannelImpl的accept()方法创建一个SocketChannel对象用户从客户端读/写数据
    - 创建读数据/写数据缓冲区对象来读取客户端数据或向客户端发送数据
    - 关闭SocketChannel和ServerSocketChannel
+   
+     >非阻塞模式.在使用传统的ServerSocket和Socket的时候,很多时候程序是会阻塞的,比如 serversocket.accept()的时候都会阻塞 accept()方法除非等到客户端socket的连接或者被异常中断,否则会一直等待下去;在ServerSocket与Socket的方式中 服务器端往往要为每一个客户端(socket)分配一个线程,而每一个线程都有可能处于长时间的阻塞状态中.而过多的线程也会影响服务器的性能;在JDK1.4引入了非阻塞的通信方式,这样使得服务器端只需要一个线程就能处理所有客户端socket的请求
 5. Scatter / Gather
    - Scatter: 从一个Channel读取的信息分散到N个缓冲区中(Buufer)
       
