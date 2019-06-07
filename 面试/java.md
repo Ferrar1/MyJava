@@ -672,7 +672,15 @@
 1. 用于检查一个或多个NIO Channel（通道）的状态是否处于可读、可写。使用Selector的好处在于： 使用更少的线程来就可以来处理通道了， 相比使用多个线程，避免了线程上下文切换带来的开销。
 
 2. SelectionKey表示了一个特定的通道对象和一个特定的选择器对象之间的注册关系.
-
+   - `OP_CONNECT`,连接就绪
+   - `OP_ACCEPT`,接收就绪
+   - `OP_READ`,读就绪
+   - `OP_WRITE`, 写就绪
+3. select(),返回的int值表示有多少通道已经就绪
+   - int select()：阻塞到至少有一个通道在你注册的事件上就绪了。
+   - int select(long timeout)：和select()一样，但最长阻塞时间为timeout毫秒。
+   - int selectNow()：非阻塞，只要有通道就绪就立刻返回。
+4. 一旦调用select()方法，并且返回值不为0时，则 可以通过调用Selector的selectedKeys()方法来访问已选择键集合 。`Set selectedKeys=selector.selectedKeys(); `,进而可以放到和某SelectionKey关联的Selector和Channel
 
 ### 问题：
 - System.out.println()是什么？println是PrintStream的一个方法。out是一个静态PrintStream类型的成员变量，System是一个java.lang包中的类，用于和底层的操作系统进行交互。
