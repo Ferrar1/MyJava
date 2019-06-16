@@ -1046,7 +1046,7 @@ MAC协议分类：
     <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/networkOfComputer/10链路层时隙ALOHA1.PNG" width=50% height=50% />
   - ALOHA：无需同步，有新帧生成时，立即发送。导致冲突也增大。最大效率18%
   - CSMA协议，载波监听多路访问协议。发送帧之前，监听信道载波，信道空闲时发送完整帧，信道忙推迟发送。
-  - CSMA/CD:带有冲突检测的CSMA协议，有线局域网易于实现，无线则很难。冲突：边发边听，不发不听。两个计算公式：
+  - CSMA/CD:带有冲突检测的CSMA协议，有线局域网易于实现，无线则很难。冲突：边发边听，不发不听。适用：一般用于通信负荷较轻的应用环境中。两个计算公式：
       - `Lmin/R=2dmax/V`
       - `Lmin/R=RTTmax`,其中网络带宽R bps，数据帧最小长度Lmin(bits)信号传播速度V（m/s）。注意：1Gbps=10^9bps,与bit对应。1B则是8bit。
 - 轮转MAC协议：节点轮流使用信道。综合上诉2种的优点。
