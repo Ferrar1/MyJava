@@ -383,6 +383,7 @@
 
 
 ## Map
+1. Collections.unmodifiableMap(cache);返回一个不可修改的视图
 1. [红黑树](http://www.sohu.com/a/201923614_466939)特性：
 	- 根节点总是黑色的；
 	- 每个叶子节点都是黑色的空节点（NIL节点）；
