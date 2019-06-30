@@ -31,4 +31,8 @@
 2. `git branch -r`查看远程分支
 3. `git push -f origin master `git push 强制提交
 4. `git fetch -all`从远程仓库下载最新版本。`git reset --hard origin/master`将本地设为刚获取的最新的内容
+5. `.gitignore`在已经push后，想重新添加忽略文件：
 
+        git rm -r --cached .
+        git add .
+        git commit -m 'update .gitignore'
