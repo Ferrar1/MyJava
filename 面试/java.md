@@ -161,7 +161,7 @@
 		end new_column_name
 		
 		
-11. `ON DUPLICATE KEY UPDATE`.[该语句](https://www.cnblogs.com/zjdxr-up/p/8319982.html)是基于唯一索引或主键使用，比如一个字段a被加上了unique index，并且表中已经存在了一条记录值为1，下面两个语句会有相同的效果：
+11. `ON DUPLICATE KEY UPDATE`.[该语句](https://www.cnblogs.com/zjdxr-up/p/8319982.html)是基于唯一索引或主键使用，不能写where条件的;比如一个字段a被加上了unique index，并且表中已经存在了一条记录值为1，下面两个语句会有相同的效果：
 
 		INSERT INTO table (a,b,c) VALUES (1,2,3)  
 		  ON DUPLICATE KEY UPDATE c=c+1;  
