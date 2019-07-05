@@ -160,6 +160,13 @@
 		else result
 		end new_column_name
 		
+		
+11. `ON DUPLICATE KEY UPDATE`.[该语句](https://www.cnblogs.com/zjdxr-up/p/8319982.html)是基于唯一索引或主键使用，比如一个字段a被加上了unique index，并且表中已经存在了一条记录值为1，下面两个语句会有相同的效果：
+
+		INSERT INTO table (a,b,c) VALUES (1,2,3)  
+		  ON DUPLICATE KEY UPDATE c=c+1;  
+
+		UPDATE table SET c=c+1 WHERE a=1;
 ## 分库分表
 1. [来源](https://www.nowcoder.com/discuss/135748)
 2. 数据切分分为两种方式，纵向切分和水平切分
