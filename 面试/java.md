@@ -143,6 +143,23 @@
 			"m"
 		    end
 		)
+10. case:
+
+		//当colume 与condition 条件相等时结果为result\当满足某一条件时，执行某一result
+		case colume 
+		    when condition then result
+		    when condition then result
+		    when condition then result
+		else result
+		end
+		//当满足某一条件时，执行某一result,把该结果赋值到new_column_name 字段中
+		case  
+		    when condition then result
+		    when condition then result
+		    when condition then result
+		else result
+		end new_column_name
+		
 ## 分库分表
 1. [来源](https://www.nowcoder.com/discuss/135748)
 2. 数据切分分为两种方式，纵向切分和水平切分
