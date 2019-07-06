@@ -169,6 +169,8 @@
 		  ON DUPLICATE KEY UPDATE c=c+1;  
 
 		UPDATE table SET c=c+1 WHERE a=1;
+		
+12. 求极值：[一般where中嵌套去查询极值](https://www.nowcoder.com/questionTerminal/218ae58dfdcd4af195fff264e062138f)，或者desc排序
 ## 分库分表
 1. [来源](https://www.nowcoder.com/discuss/135748)
 2. 数据切分分为两种方式，纵向切分和水平切分
