@@ -57,7 +57,7 @@
    - 多路复用 (Multiplexing).在 HTTP/1.1 协议中浏览器客户端在同一时间，针对同一域名下的请求有一定数量限制。超过限制数目的请求会被阻塞。而HTTP/2 的多路复用(Multiplexing) 则允许同时通过单一的 
    - 二进制分帧。HTTP/2在 应用层(HTTP/2)和传输层(TCP or UDP)之间增加一个二进制分帧层。
 
-
+-----------------------------------------------------------------------------------
 # 数据库
 ## 属性
 - 实体完整性： 每一个表中的主键字段不能为空或者重复的值。实体完整性指表中行的完整性。要求表中的所有行都有唯一的标识符，称为主关键字；
@@ -91,8 +91,10 @@
    - 尽量减少select count(*) from tablename where COL = ‘value’这种查询；
    - 杜绝select count(COL) from tablename where COL2 = ‘value’的出现。
 ## sql语法：
+1. desc\asc.用于降序升序。语法：`field desc`.有时候可能需要在前面加`,`
 1. having，通常与GROUP BY语句联合使用，用来过滤由GROUP BY语句返回的记录集。如果想查询平均分高于80分的学生记录可以这样写，这里如果是where就出错：
 
+		//group by 中的参数，必须是select查询的结果中的的参数才可以
 		SELECT id, COUNT(course) as numcourse, AVG(score) as avgscore
 
 		FROM student
@@ -101,7 +103,7 @@
 
 		HAVING AVG(score)>=80;
 2. 连接
-   - 内连接: 只连接匹配的行
+   - 内连接: 只连接匹配的行。[可以处理left连接为空的情况](https://leetcode-cn.com/problems/department-highest-salary/)。
    - 左外连接: 包含左边表的全部行（不管右边的表中是否存在与它们匹配的行），以及右边表中全部匹配的行
      - `SELECT a.,b. FROM luntan LEFT JOIN usertable as b ON a.username=b.username`
    - 右外连接: 包含右边表的全部行（不管左边的表中是否存在与它们匹配的行），以及左边表中全部匹配的行
