@@ -127,7 +127,10 @@
       - group by 可以实现一个最简单的去重查询
       - 分组后的条件使用 HAVING 来限定，WHERE 是对原始数据进行条件限制。这里分组，比如统计网站用户点击方式，用name来作为分组字段，然后对某一用户行为进行统计
       - group by 中的参数，必须是select查询的结果中的的参数才可以
-      
+   - 组外排序+组内排序。
+   
+			group by packageId
+			order by activeRate desc
 7. `datediff(date1,date2)`输出date1-date2的天数。有正负之分。[用途](https://leetcode-cn.com/problems/rising-temperature/submissions/)
 8. `distinct`，筛掉重复的。主要是放的位置，可以放在select后面的列前面。也可以如：`count(distinct student)>=5`
 9. `case`.Case函数只返回第一个符合条件的值，剩下的Case部分将会被自动忽略。Case when 相当于一个自定义的数据透视表，group by 是行名，case when 负责列名。
@@ -171,6 +174,11 @@
 		UPDATE table SET c=c+1 WHERE a=1;
 		
 12. 求极值：[一般where中嵌套去查询极值](https://www.nowcoder.com/questionTerminal/218ae58dfdcd4af195fff264e062138f)，或者desc排序
+13. UNION 操作符用于**合并**两个或多个 SELECT 语句的结果集。如果允许重复的值，请使用 UNION ALL。
+
+		SELECT column_name(s) FROM table_name1
+		UNION
+		SELECT column_name(s) FROM table_name2
 ## 分库分表
 1. [来源](https://www.nowcoder.com/discuss/135748)
 2. 数据切分分为两种方式，纵向切分和水平切分
