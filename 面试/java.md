@@ -174,7 +174,7 @@
 		UPDATE table SET c=c+1 WHERE a=1;
 		
 12. 求极值：[一般where中嵌套去查询极值](https://www.nowcoder.com/questionTerminal/218ae58dfdcd4af195fff264e062138f)，或者desc排序
-13. UNION 操作符用于**合并**两个或多个 SELECT 语句的结果集。如果允许重复的值，请使用 UNION ALL。
+13. UNION 操作符用于**合并**两个或多个 SELECT 语句的结果集。如果允许重复的值，请使用 UNION ALL。应用：列出各项清单以及总计。
 
 		SELECT column_name(s) FROM table_name1
 		UNION
