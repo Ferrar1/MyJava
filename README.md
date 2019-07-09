@@ -36,3 +36,4 @@
         git rm -r --cached .
         git add .
         git commit -m 'update .gitignore'
+6. 只合并customize_new分支的部分文件到当前分支：`git checkout  customize_new /home/mi/miui-bi/miui-bi-web/src/main/java/com/MiuiAppPaiEntity.java`。
