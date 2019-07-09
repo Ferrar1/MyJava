@@ -16,7 +16,10 @@
 其中运行命令sudo，其实都是调用的init进程，将数字传递给进程，进程去读取配置文件执行对应的操作：
 
 -  init 0 表示关机
--  init 3 切换到不带桌面的模式，永久命令（initdefault，还要改配置文件）
+-  init 3 切换到不带桌面的模式，永久命令（initdefault，还要改配置文件）。我在Ubuntu下
+   - `sudo vim /etc/default/grub`
+   - `GRUB_CMDLINE_LINUX_DEFAULT`改为`"quiet splash 3"`
+   - `sudo update-grub`以更改配置，重启
 -  init 5 切换到图像界面
 -  init 6重启电脑
 
