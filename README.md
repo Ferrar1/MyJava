@@ -26,6 +26,11 @@
    - 过滤出数字: `[^(0-9)]`
    - 过滤出中文: `[^(\\u4e00-\\u9fa5)]`,不过直接复制这个到idea会自动补/，因此记住这里只有2个/
    - 过滤字母数字：`s.replaceAll("[^A-Za-z0-9]", ""); `
+   
+2. 新特性：
+   - default接口
+   - `::`，[双冒号](https://www.cnblogs.com/tietazhan/p/7486937.html)
+   - 
 ## git
 1. `git remote update origin --prune`   # 更新远程主机origin 整理分支
 2. `git branch -r`查看远程分支
