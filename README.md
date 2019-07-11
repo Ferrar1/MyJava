@@ -30,7 +30,7 @@
 2. 新特性：
    - default接口
    - `::`，[双冒号](https://www.cnblogs.com/tietazhan/p/7486937.html)
-   - lambda。都在Function包下。
+   - lambda。都在Function包下。以及[流](https://blog.csdn.net/lidai352710967/article/details/82496783)
 ## git
 1. `git remote update origin --prune`   # 更新远程主机origin 整理分支
 2. `git branch -r`查看远程分支
