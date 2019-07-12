@@ -43,4 +43,4 @@
         git commit -m 'update .gitignore'
 6. 只合并customize_new分支的部分文件到当前分支：`git checkout  customize_new /home/mi/miui-bi/miui-bi-web/src/main/java/com/MiuiAppPaiEntity.java`。
 
-`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCvM1RFQU7Bw2yVyIoKF34nOLhyHmO/9cNyudSb1YPYST7qhcfZyrgUhd7kl9Ea+CVKGqhR7xXICHMJZM9w9wF9IHAGHig+nd+ifq5niWbNgKDq/4/hlyCJ6ziPPMk5X3quI4fCIXFaZdJ5cuqpaixsqg5Z8D/FwgkqWCNs/Mu2DIyKA7O9vQOR5hvfjMlZATNwu+tELQ/G2rPI28GvV22akbDlsL7yNkd1alMJkxdvJenpGbo8S3W+S53gww0FtmFAuJIWRKmq/w9qEISl3vlTM1SPc/x5ur3I10JqNibUHtf9PtzN4wQrme1UBsljE0PKzK4wihCVQ0lgDjZZdL+p mi@mi-OptiPlex-7060`
+`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDACPpzEkz6TNujtstJSVnUMKhuj7YwVmOcrZp9wWHOsPxIT7ugLVy0UP0bKYTxPtUHU/Fp1lHS81PG7MeNQ+pRI9r2eUsEGm8LICBwYVrqA+T/weAKYfBgdheDuIOnFGnJPUDi8CX6RfylqvlGFgvs3piNiz+s2ip62cL/3Zw12YWgSoNwMIX8y3vWS2iI9Evla/6W0TbUQ+djFty9Da+WLvhe7k/+m8cSD/Nx7lhz72nWkIHLf/2DzgDUrshp4SuvGuzCO6LdSubd88aryq52IqNPD1G1O3LXMJu9hS+igc+vaPV/xqn6QmmTHntGpWD58Och5BQPxrG4RB6PjbTP mi@mi-OptiPlex-7060`
