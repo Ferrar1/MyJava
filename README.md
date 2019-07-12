@@ -44,4 +44,3 @@
 6. 只合并customize_new分支的部分文件到当前分支：`git checkout  customize_new /home/mi/miui-bi/miui-bi-web/src/main/java/com/MiuiAppPaiEntity.java`。
 
 
-`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDaWA00alP3ACTMQ/5+NEJt7CmXVnnpGkG4Z3oK43Qr2XudAijduHP8V9BsI0nZBWQ0jgt6XtpB9wLT1ZtE/efWGGDh8hcMjNPn8qp/xLajIoUGLOUreUOkZYQnVdirCwnR+eo68rQ0V/X6o5CjHTz+0sHGO7wvjF0HeVww0N08Ea0FLW2WoeAXmLFFGzQjeKWTheAwZKUqsKuHaEiltzMWBYLRIt8WfIro7j78Dkur/01C7jsIExvsCYgU5MXtThWDoHCzxdZxzFMEL4nZBIQ0NasGeyqQ3qDH5mWjhTUYK6/vqvdY5rXd0ClZYN1Cv2v+9Jy50qtZU77+41F0eh3j xuzhuang`
