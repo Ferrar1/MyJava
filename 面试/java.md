@@ -127,7 +127,7 @@
       - group by 可以实现一个最简单的去重查询
       - 分组后的条件使用 HAVING 来限定，WHERE 是对原始数据进行条件限制。这里分组，比如统计网站用户点击方式，用name来作为分组字段，然后对某一用户行为进行统计
       - group by 中的参数，必须是select查询的结果中的的参数才可以
-   - 组外排序+组内排序。
+   - [组外排序+组内排序](https://www.nowcoder.com/practice/ae51e6d057c94f6d891735a48d1c2397?tpId=82&tqId=29760&tPage=1&rp=&ru=%2Fta%2Fsql&qru=%2Fta%2Fsql%2Fquestion-ranking)。
    
 			group by packageId
 			order by activeRate desc
