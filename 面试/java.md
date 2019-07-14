@@ -104,7 +104,7 @@
 		HAVING AVG(score)>=80;
 2. 连接
    - 内连接: 只连接匹配的行。[可以处理left连接为空的情况](https://leetcode-cn.com/problems/department-highest-salary/)。
-   - 左外连接: 包含左边表的全部行（不管右边的表中是否存在与它们匹配的行），以及右边表中全部匹配的行。另外，on表示连接条件，[不要把where中的语句也放在on中，应该单独](https://www.nowcoder.com/practice/6d35b1cd593545ab985a68cd86f28671?tpId=82&tqId=29756&tPage=1&rp=&ru=%2Fta%2Fsql&qru=%2Fta%2Fsql%2Fquestion-ranking)
+   - 左外连接: 包含左边表的全部行（不管右边的表中是否存在与它们匹配的行），以及右边表中全部匹配的行。另外，on表示连接条件，[不要把where中的语句也放在on中，应该单独](https://www.nowcoder.com/practice/6d35b1cd593545ab985a68cd86f28671?tpId=82&tqId=29756&tPage=1&rp=&ru=%2Fta%2Fsql&qru=%2Fta%2Fsql%2Fquestion-ranking)。另外，连接的时候，查出来的数据只保证[on条件上的数据相同，其他相同字段不一定相同](https://www.nowcoder.com/practice/4c8b4a10ca5b44189e411107e1d8bec1?tpId=82&tqId=29761&tPage=1&rp=&ru=%2Fta%2Fsql&qru=%2Fta%2Fsql%2Fquestion-ranking)
      - `SELECT a.,b. FROM luntan LEFT JOIN usertable as b ON a.username=b.username`
    - 右外连接: 包含右边表的全部行（不管左边的表中是否存在与它们匹配的行），以及左边表中全部匹配的行
    - 全外连接: 包含左、右两个表的全部行，不管另外一边的表中是否存在与它们匹配的行。
