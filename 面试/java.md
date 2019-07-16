@@ -318,6 +318,8 @@
 
 >适配器模式在使用的时候，除了处理事件的handle方法，还需要一个support方法来，用以遍历循环，进行适配找到合适的适配器处理。
 
+## spring注解
+1. [Autowired](https://www.jianshu.com/p/83a79018580f)还可以注入List、Map、数组等相同类型bean。源码中doResolveDependency方法调用了resolveMultipleBeans方法：判断注入类型
 ## spring的aop与ioc
 1. 传统Java SE程序设计，我们直接在对象内部通过new进行创建对象，是程序主动去创建依赖对象；而IoC是有专门一个容器来创建这些对象，即由Ioc容器来控制对象的创建；依赖注入是当对象与其他对象发生依赖关系时，所依赖的对象由容器注入。
 2. IOC，控制反转，不是什么技术，而是一种设计思想。Ioc意味着将你设计好的对象交给容器控制
