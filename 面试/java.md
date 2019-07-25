@@ -5,6 +5,7 @@
 - [spring](#spring)
 - [集合框架](#集合框架)
 - [JVM](#jvm)
+- [异常](#异常)
 - [IO](#io)
 - [Nginx](#nginx)
 - [Redis](#redis) 
@@ -664,6 +665,16 @@
 5. [如何打破该机制](https://blog.csdn.net/zhouxcwork/article/details/81566636)：
    - 沿用双亲委派机制自定义类加载器很简单，只需继承ClassLoader类并重写findClass方法即可。此方法要做的事情是读取Test.class字节流并传入父类的defineClass方法即可。
    - 打破：除了重写findClass方法外还重写了loadClass方法，默认的loadClass方法是实现了双亲委派机制的逻辑，即会先让父类加载器加载，当无法加载时才由自己加载。这里为了破坏双亲委派机制必须重写loadClass方法，即这里先尝试交由System类加载器加载，加载失败才会由自己加载。它并没有优先交给父类加载器，这就打破了双亲委派机制。
+
+## 异常
+1. [算术异常类](https://www.cnblogs.com/cvst/p/5822373.html)：ArithmeticExecption。除以0等。
+2. 空指针异常类：NullPointerException
+3. 类型强制转换异常：ClassCastException
+4. 数组下标越界异常：ArrayIndexOutOfBoundsException
+5. 文件未找到异常：FileNotFoundException
+6. 字符串转换为数字异常：NumberFormatException
+7. java.lang.OutOfMemoryError：内存不足错误。
+8. java.lang.StackOverflowError：堆栈溢出错误。当一个应用递归调用的层次太深而导致堆栈溢出时抛出该错误。
 
 ## io
 
