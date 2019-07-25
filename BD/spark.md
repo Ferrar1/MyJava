@@ -43,3 +43,31 @@
                 res25: Int = -13
                 scala> list.reduceRight(_ - _)
                 res26: Int = 3
+5. fold
+   1. fold操作需要从一个初始的“种子”值开始，并以该值作为上下文，处理集合中的每个元素。
+   
+            //fold函数需要两个参数，一个参数是初始种子值，这里是10，另一个参数是用于计算结果的累计函数，这里是累乘。
+            scala> val list = List(1,2,3,4,5)
+            list: List[Int] = List(1, 2, 3, 4, 5)
+
+            scala> list.fold(10)(_*_)
+            res0: Int = 1200
+            
+## spark2.0
+1. [RDD的设计与运行原理](http://dblab.xmu.edu.cn/blog/985-2/)
+   1. 例子。map(line => line.split(" ").size)，对lines中的每个元素执行匿名函数后，map操作返回每个元素的size组成的集合`RDD[Int]`。reduce：首先取出1和2，把a赋值为1，把b赋值为2，然后，执行大小判断，保留2。下一次，让保留下来的2赋值给a，再从`RDD[Int]`中取出下一个元素3，把3赋值给b，然后，对a和b执行大小判断，保留较大者3.依此类推。最终，reduce()操作会得到最大值是5。
+   
+            scala> val lines = sc.textFile("file:///usr/local/spark/mycode/rdd/word.txt")
+            scala> lines.map(line => line.split(" ").size).reduce((a,b) => if (a>b) a else b)
+   2. [创建RDD](http://dblab.xmu.edu.cn/blog/990-2/)
+   3. 常见操作
+      - reduceByKey(func)，使用func函数合并具有相同键的值。比如，reduceByKey((a,b) => a+b)，有四个键值对(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)，对具有相同key的键值对进行合并后的结果就是：(“spark”,3)、(“hadoop”,8)。可以看出，(a,b) => a+b这个Lamda表达式中，a和b都是指value，比如，对于两个具有相同key的键值对(“spark”,1)、(“spark”,2)，a就是1，b就是2。
+      - groupByKey()，对具有相同键的值进行分组。比如，对四个键值对(“spark”,1)、(“spark”,2)、(“hadoop”,3)和(“hadoop”,5)，采用groupByKey()后得到的结果是：(“spark”,(1,2))和(“hadoop”,(3,5))。
+      - keys，只会把键值对RDD中的key返回形成一个新的RDD。
+      - values只会把键值对RDD中的value返回形成一个新的RDD。
+      - mapValues(func)，对键值对RDD中的每个value都应用一个函数，但是，key不会发生变化。
+      - join，内连接，对于给定的两个输入数据集(K,V1)和(K,V2)，只有在两个数据集中都存在的key才会被输出，最终得到一个(K,(V1,V2))类型的数据集。
+      
+            scala> pairRDD1.join(pairRDD2).foreach(println)
+            (spark,(1,fast))
+            (spark,(2,fast))
