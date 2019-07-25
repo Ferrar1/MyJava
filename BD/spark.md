@@ -18,17 +18,17 @@
 2. Option类型
    1. Option类包含一个子类Some，当存在可以被引用的值的时候，就可以使用Some来包含这个值，例如Some(“Hadoop”)。Option类型还提供了getOrElse方法，这个方法在这个Option是Some的实例时返回对应的值，而在是None的实例时返回传入的参数。Option[T]实际上是一个容器，我们可以对get出的值进行map、filter等操作
 
-        //首先我们创建一个映射
-        scala> val books=Map("hadoop"->5,"spark"->10,"hbase"->7)
-        books: scala.collection.immutable.Map[String,Int] = Map(hadoop -> 5, spark -> 10, hbase -> 7)
+           //首先我们创建一个映射
+           scala> val books=Map("hadoop"->5,"spark"->10,"hbase"->7)
+           books: scala.collection.immutable.Map[String,Int] = Map(hadoop -> 5, spark -> 10, hbase -> 7)
 
-        //下面我们从映射中取出键为"hadoop"对应的值，这个键是存在的，可以取到值，并且取到的值会被包含在Some中返回
-        scala> books.get("hadoop")
-        res0: Option[Int] = Some(5)
+           //下面我们从映射中取出键为"hadoop"对应的值，这个键是存在的，可以取到值，并且取到的值会被包含在Some中返回
+           scala> books.get("hadoop")
+           res0: Option[Int] = Some(5)
 
-        //下面我们从映射中取出键为"hive"对应的值，这个键是不存在的，所以取到的值是None对象
-        scala> books.get("hive")
-        res1: Option[Int] = None
+           //下面我们从映射中取出键为"hive"对应的值，这个键是不存在的，所以取到的值是None对象
+           scala> books.get("hive")
+           res1: Option[Int] = None
 3. object
    1. 采用object关键字实现单例对象.
    2. 伴生对象: 在Java中，我们经常需要用到同时包含实例方法和静态方法的类，在Scala中可以通过伴生对象来实现.2者必须存在于同一个文件中。
