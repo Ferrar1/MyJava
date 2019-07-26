@@ -86,3 +86,8 @@
             scala> pairRDD1.join(pairRDD2).foreach(println)
             (spark,(1,fast))
             (spark,(2,fast))
+
+
+
+2. DataFrame
+   1. 与RDD区别：RDD是分布式的 Java对象的集合，`RDD[T]`中的T对RDD而言是未知，而DataFrame是一种以RDD为基础的分布式数据集，提供了详细的结构信息。
