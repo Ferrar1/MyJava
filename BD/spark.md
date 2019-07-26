@@ -56,6 +56,18 @@
             scala> list.fold(10)(_*_)
             res0: Int = 1200
             
+6. [cogroup](https://www.jianshu.com/p/2e9b68ac4b03)
+
+         val rdd1 = sc.parallelize(Array(("aa",1),("bb",2),("cc",6)))
+         val rdd2 = sc.parallelize(Array(("aa",3),("dd",4),("aa",5)))
+         val rdd3 = rdd1.cogroup(rdd2).collect()
+         结果为：
+         (aa,(CompactBuffer(1),CompactBuffer(3, 5)))
+         (dd,(CompactBuffer(),CompactBuffer(4)))
+         (bb,(CompactBuffer(2),CompactBuffer()))
+         (cc,(CompactBuffer(6),CompactBuffer()))
+
+            
 ## spark2.0
 1. [RDD的设计与运行原理](http://dblab.xmu.edu.cn/blog/985-2/)
    1. 例子。map(line => line.split(" ").size)，对lines中的每个元素执行匿名函数后，map操作返回每个元素的size组成的集合`RDD[Int]`。reduce：首先取出1和2，把a赋值为1，把b赋值为2，然后，执行大小判断，保留2。下一次，让保留下来的2赋值给a，再从`RDD[Int]`中取出下一个元素3，把3赋值给b，然后，对a和b执行大小判断，保留较大者3.依此类推。最终，reduce()操作会得到最大值是5。
