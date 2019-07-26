@@ -29,6 +29,9 @@
            //下面我们从映射中取出键为"hive"对应的值，这个键是不存在的，所以取到的值是None对象
            scala> books.get("hive")
            res1: Option[Int] = None
+           
+           Seq(1,2,3).headOption
+           //res2: Option[Int] = Some(1)
 3. object
    1. 采用object关键字实现单例对象.
    2. 伴生对象: 在Java中，我们经常需要用到同时包含实例方法和静态方法的类，在Scala中可以通过伴生对象来实现.2者必须存在于同一个文件中。
