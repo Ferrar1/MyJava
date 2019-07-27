@@ -321,14 +321,18 @@
 
 ## spring注解
 1. [Autowired](https://www.jianshu.com/p/83a79018580f)还可以注入List、Map、数组等相同类型bean。源码中doResolveDependency方法调用了resolveMultipleBeans方法：判断注入类型
+
+
 ## spring的aop与ioc
 1. 传统Java SE程序设计，我们直接在对象内部通过new进行创建对象，是程序主动去创建依赖对象；而IoC是有专门一个容器来创建这些对象，即由Ioc容器来控制对象的创建；依赖注入是当对象与其他对象发生依赖关系时，所依赖的对象由容器注入。
 2. IOC，控制反转，不是什么技术，而是一种设计思想。Ioc意味着将你设计好的对象交给容器控制
 3. DI，依赖注入.IoC的一个重点是在系统运行中，动态的向某个对象提供它所需要的其他对象。这一点是通过DI（Dependency Injection，依赖注入）来实现的。
 4. 在面向对象编程中，关键的单元是对象，AOP的关键单元是切面。使用AOP技术，可以将一些系统性相关的编程工作，独立提取出来，独立实现，然后通过切面切入进系统。从而避免了在业务逻辑的代码中混入很多的系统相关的逻辑——比如权限管理，事物管理，日志记录等等。
 5. spring实现的技术为： JDK提供的动态代理技术 和 CGLIB(动态字节码增强技术) 
-   - JDK动态代理：靠Proxy类和InvocationHandler接口。jdk代理只能代理被接口修饰的类，而cglib没有这个限制（jdk是动态生成委托类的接口的实现类，cglib是动态生成委托类的子类）
-   - CGLIB
+   - **jdk是动态生成委托类的接口的实现类，cglib是动态生成委托类的子类**
+   - JDK动态代理：实现InvocationHandler接口，通过Proxy类动态的创建了一个代理类。jdk代理只能代理接口，而cglib没有这个限制
+   - CGLIB:使用ASM来代理普通类。但是不能代理final。final类不能被继承、没有子类、final类中修饰的方法默认是final。
+       >ASM是一个java字节码操控框架，可以以二进制的形式修改已有类.
 ## spring事务
 1. [结论](http://blog.itpub.net/69900354/viewspace-2565243/)：
    - 如果是编译时异常不会自动回滚，如果是运行时异常，那会自动回滚！
