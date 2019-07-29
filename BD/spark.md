@@ -56,16 +56,7 @@
             scala> list.fold(10)(_*_)
             res0: Int = 1200
             
-6. [cogroup](https://www.jianshu.com/p/2e9b68ac4b03)
 
-         val rdd1 = sc.parallelize(Array(("aa",1),("bb",2),("cc",6)))
-         val rdd2 = sc.parallelize(Array(("aa",3),("dd",4),("aa",5)))
-         val rdd3 = rdd1.cogroup(rdd2).collect()
-         结果为：
-         (aa,(CompactBuffer(1),CompactBuffer(3, 5)))
-         (dd,(CompactBuffer(),CompactBuffer(4)))
-         (bb,(CompactBuffer(2),CompactBuffer()))
-         (cc,(CompactBuffer(6),CompactBuffer()))
 
             
 ## spark2.0
@@ -86,8 +77,21 @@
             scala> pairRDD1.join(pairRDD2).foreach(println)
             (spark,(1,fast))
             (spark,(2,fast))
+      - [cogroup](https://www.jianshu.com/p/2e9b68ac4b03)
 
-
+            val rdd1 = sc.parallelize(Array(("aa",1),("bb",2),("cc",6)))
+            val rdd2 = sc.parallelize(Array(("aa",3),("dd",4),("aa",5)))
+            val rdd3 = rdd1.cogroup(rdd2).collect()
+            结果为：
+            (aa,(CompactBuffer(1),CompactBuffer(3, 5)))
+            (dd,(CompactBuffer(),CompactBuffer(4)))
+            (bb,(CompactBuffer(2),CompactBuffer()))
+            (cc,(CompactBuffer(6),CompactBuffer()))
+2. shuffle。Spark支持宽依赖的转换，例如groupByKey和reduceByKey、cogroup，在这些依赖项中，计算单个分区中的记录所需的数据可以来自于父数据集的许多分区中。要执行这些转换，具有相同key的所有元组必须最终位于同一分区中，由同一任务处理。为了满足这一要求，Spark产生一个shuffle，它在集群内部传输数据，并产生一个带有一组新分区的新stage。
+   
+   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/BD/shuffle.webp" width=50% height=50% />
+   
+   在每个stage的边界，父stage的task会将数据写入磁盘，子stage的task会将数据通过网络读取。由于它们会导致很高的磁盘和网络IO，所以shuffle代价相当高，应该尽量避免。
 
 2. DataFrame
    1. 与RDD区别：RDD是分布式的 Java对象的集合，`RDD[T]`中的T对RDD而言是未知，而DataFrame是一种以RDD为基础的分布式数据集，提供了详细的结构信息。
