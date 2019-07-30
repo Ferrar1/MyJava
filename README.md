@@ -28,9 +28,12 @@
    - 过滤字母数字：`s.replaceAll("[^A-Za-z0-9]", ""); `
    
 2. 新特性：
-   - default接口
-   - `::`，[双冒号](https://www.cnblogs.com/tietazhan/p/7486937.html)
-   - lambda。都在Function包下。以及[流](https://blog.csdn.net/lidai352710967/article/details/82496783).注意：所有 Stream 的操作必须以 lambda 表达式为参数
+   1. default接口
+   2. `::`，[双冒号](https://www.cnblogs.com/tietazhan/p/7486937.html)
+   3. lambda。都在Function包下。以及[流](https://blog.csdn.net/lidai352710967/article/details/82496783).注意：所有 Stream 的操作必须以 lambda 表达式为参数
+   4. Function接口：
+      - [Function<T, R>，T—函数的输入类型，R-函数的输出类型。](https://www.orchome.com/935)lambda的写法就是Function内部写一个方法T为输入，使用的时候调用apply或者compose等就是相当于重写了该方法，获取返回。
+      - 当然，对于需要重复使用的Function，可以事前定义好，像写函数一样，在具体使用的时候直接赋值。然后调用时直接用apply方法传参数就好了。
 ## git
 1. `git remote update origin --prune`   # 更新远程主机origin 整理分支
 2. `git branch -r`查看远程分支
