@@ -42,3 +42,4 @@
         git add .
         git commit -m 'update .gitignore'
 6. 只合并customize_new分支的部分文件到当前分支：`git checkout  customize_new /home/mi/miui-bi/miui-bi-web/src/main/java/com/MiuiAppPaiEntity.java`。
+7. git提交后出现nano界面:Ctrl + X然后输入y再然后回车，就可以退出了
