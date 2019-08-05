@@ -31,6 +31,13 @@
    1. default接口
    2. `::`，[双冒号](https://www.cnblogs.com/tietazhan/p/7486937.html)
    3. lambda。都在Function包下。以及[流](https://blog.csdn.net/lidai352710967/article/details/82496783).注意：所有 Stream 的操作必须以 lambda 表达式为参数
+   4. [流stream的原理](https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/)
+      - 操作包括：
+        - Intermediate：map (mapToInt, flatMap 等)、 filter、 distinct、 sorted、 peek、 limit、 skip、 parallel、 sequential、 unordered
+        - Terminal：forEach、 forEachOrdered、 toArray、 reduce、 collect、 min、 max、 count、 anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 iterator
+        - Short-circuiting：anyMatch、 allMatch、 noneMatch、 findFirst、 findAny、 limit
+      - 一次性使用。terminal操作之后无法再次进行terminal操作。
+      - 可以并行计算。缺点是结果打乱之前顺序
    4. Function接口：
       - [Function<T, R>，T—函数的输入类型，R-函数的输出类型。](https://www.orchome.com/935)lambda的写法就是Function内部写一个方法T为输入，使用的时候调用apply或者compose等就是相当于重写了该方法，获取返回。
       - 当然，对于需要重复使用的Function，可以事前定义好，像写函数一样，在具体使用的时候直接赋值。然后调用时直接用apply方法传参数就好了。
