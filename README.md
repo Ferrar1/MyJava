@@ -53,7 +53,8 @@
         git commit -m 'update .gitignore'
 6. 只合并customize_new分支的部分文件到当前分支：`git checkout  customize_new /home/mi/miui-bi/miui-bi-web/src/main/java/com/MiuiAppPaiEntity.java`。
 7. git提交后出现nano界面:Ctrl + X然后输入y再然后回车，就可以退出了
-8. `git stash`将目前还不想提交的但是已经修改的内容进行保存至堆栈中，后续可以在某个分支上恢复出堆栈中的内容。这也就是说，stash中的内容不仅仅可以恢复到原先开发的分支，也可以恢复到其他任意指定的分支上。
-   1. 之前我都是开发到一部分就提交一次。这样其实每次提交版本都需要确定，所以很麻烦，现在只是保存了，后面还可以恢复。
-   2. 当正在dev分支上开发某个项目，这时项目中出现一个bug，需要紧急修复，但是正在开发的内容只是完成一半，还不想提交，这时可以用git stash命令将修改的内容保存至堆栈区，然后顺利切换到hotfix分支进行bug修复，修复完成后，再次切回到dev分支，从堆栈中恢复刚刚保存的内容。
-   3. 由于疏忽，本应该在dev分支开发的内容，却在master上进行了开发，需要重新切回到dev分支上进行开发，可以用git stash将内容保存至堆栈中，切回到dev分支后，再次恢复内容即可。
+8. `git stash`将目前还不想提交的但是已经修改的内容进行保存至堆栈中，后续可以在某个分支上恢复出堆栈中的内容。这也就是说，stash中的内容不仅仅可以恢复到原先开发的分支，也可以恢复到其他任意指定的分支上。[来源](https://blog.csdn.net/stone_yw/article/details/80795669)
+   - `git stash save ""`，作用等同于git stash，区别是可以加一些注释
+   - `git stash list`,查看当前stash中的内容
+   - `git stash pop`,将当前stash中的内容弹出，并应用到当前分支对应的工作目录上。
+   - `git stash apply`,将堆栈中的内容应用到当前目录，不同于git stash pop，该命令不会将内容从堆栈中删除，也就说该命令能够将堆栈的内容多次应用到工作目录中，适应于多个分支的情况。
