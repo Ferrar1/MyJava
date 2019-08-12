@@ -380,7 +380,16 @@
     - PROPAGATION_NOT_SUPPORTED当前不支持事务
     - PROPAGATION_NEVER不能在事务中运行
     - PROPAGATION_NESTED
-
+6. 注意：
+   1. @Transactional 只能应用到 public 方法才有效。
+      - 这是因为在使用 Spring AOP 代理时，Spring 在调用 TransactionInterceptor（在目标方法执行前后进行拦截）之前，DynamicAdvisedInterceptor（CglibAopProxy的内部类）的的 intercept方法或 JdkDynamicAopProxy 的 invoke 方法会间接调用 AbstractFallbackTransactionAttributeSource（Spring 通过这个类获取@Transactional 注解的事务属性配置属性信息）的 computeTransactionAttribute 方法。
+      
+		      protected TransactionAttribute computeTransactionAttribute(Method method,Class<?> targetClass) {
+			// Don't allow no-public methods as required.
+			if (allowPublicMethodsOnly() && !Modifier.isPublic(method.getModifiers())) {
+			return null;
+		      }
+   2. 为解决这自调用以及public两个问题，使用 AspectJ 取代 Spring AOP 代理。有一种是[自注入](https://maskwang520.github.io/2018/04/16/Transaction%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/)；另一种就是Aspect。
 
 # 集合框架
 [来源](https://segmentfault.com/a/1190000014240704)。
