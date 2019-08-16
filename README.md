@@ -10,6 +10,7 @@
 4. view——>Tool windows——>structure或者alt+7。查看当前类的方法。
 5. 选中方法，ctrl+F7。跳转到调用该方法的位置。
 6. ctrl+shift+N，查文件名
+6. ctrl+shift+A，查设置，比如设置背景background
 
 
 ## markdown：
