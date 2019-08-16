@@ -688,7 +688,7 @@
 6. 字符串转换为数字异常：NumberFormatException
 7. java.lang.OutOfMemoryError：内存不足错误。
 8. java.lang.StackOverflowError：堆栈溢出错误。当一个应用递归调用的层次太深而导致堆栈溢出时抛出该错误。
-
+9. java.lang.UnsupportedClassVersionError。JDK版本不同异常。换一个打包版本就行
 ## io
 
 ### NIO
