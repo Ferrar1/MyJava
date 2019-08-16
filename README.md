@@ -65,3 +65,26 @@
 1. Ubuntu下sudo能无密码访问，但是普通用户无法登录。这样就可以密码登录
    - update mysql.user set authentication_string=PASSWORD('12345678'), plugin='mysql_native_password' where user='root';
    - flush privileges;
+   
+   
+   
+   
+## pom
+1. jar打包依赖。springboot
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- 指定该Main Class为全局的唯一入口 -->
+                    <mainClass>com.example.demo.DemoApplication</mainClass>
+                    <layout>ZIP</layout>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
