@@ -12,7 +12,7 @@
 6. ctrl+shift+N，查文件名
 6. ctrl+shift+A，查设置，比如设置背景background
 
-
+------------------
 ## markdown：
 
 1. 图片添加：
@@ -20,7 +20,7 @@
     - `<div align=center>![这里写图片描述](http:...)`
     - `<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/1-B+树插入过程.gif" width=50% height=50% />`
 
-
+-------------
 ## java
 1. 正则表达式过滤出字母、数字和中文
    - 过滤出字母: `[^(A-Za-z)]`
@@ -28,6 +28,9 @@
    - 过滤出中文: `[^(\\u4e00-\\u9fa5)]`,不过直接复制这个到idea会自动补/，因此记住这里只有2个/
    - 过滤字母数字：`s.replaceAll("[^A-Za-z0-9]", ""); `
    
+2. [通配符和边界](https://www.cnblogs.com/drizzlewithwind/p/6100164.html)来源。
+   - `<? extends T>`,上界通配符。能放一切继承自T的类
+   - `<? super T>`,下界通配符。能放T及T继承的类，但不能放T的派生类。
 2. 新特性：
    1. default接口
    2. `::`，[双冒号](https://www.cnblogs.com/tietazhan/p/7486937.html)
@@ -43,6 +46,7 @@
    4. Function接口：
       - [Function<T, R>，T—函数的输入类型，R-函数的输出类型。](https://www.orchome.com/935)lambda的写法就是Function内部写一个方法T为输入，使用的时候调用apply或者compose等就是相当于重写了该方法，获取返回。
       - 当然，对于需要重复使用的Function，可以事前定义好，像写函数一样，在具体使用的时候直接赋值。然后调用时直接用apply方法传参数就好了。
+----------
 ## git
 1. `git remote update origin --prune`   # 更新远程主机origin 整理分支
 2. `git branch -r`查看远程分支
@@ -61,6 +65,7 @@
    - `git stash pop`,将当前stash中的内容弹出，并应用到当前分支对应的工作目录上。
    - `git stash apply`,将堆栈中的内容应用到当前目录，不同于git stash pop，该命令不会将内容从堆栈中删除，也就说该命令能够将堆栈的内容多次应用到工作目录中，适应于多个分支的情况。
    
+------------
 ## mysql
 1. Ubuntu下sudo能无密码访问，但是普通用户无法登录。这样就可以密码登录
    - update mysql.user set authentication_string=PASSWORD('12345678'), plugin='mysql_native_password' where user='root';
@@ -68,7 +73,7 @@
    
    
    
-   
+--------------------
 ## pom
 1. jar打包依赖。springboot
 
