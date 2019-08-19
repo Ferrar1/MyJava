@@ -1,6 +1,9 @@
 # MyJava
 学习路上的一些知识点
 
+## 框架
+[一切框架，都是构建一个数据结构，然后根据这个数据结构设计他的生存环境，并让它在这个环境中按照一定的规律在不停的运动，在它们的不停运动中设计一系列与环境或者与其他个体完成信息交换](https://www.ibm.com/developerworks/cn/java/j-lo-spring-principle/)
+
   
 ## idea:
 
