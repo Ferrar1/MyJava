@@ -5,6 +5,7 @@
 - [spring](#spring)
 - [集合框架](#集合框架)
 - [JVM](#jvm)
+  - [类加载](类加载)
 - [异常](#异常)
 - [IO](#io)
 - [Nginx](#nginx)
@@ -685,6 +686,8 @@
 >-XXSurvivorRatio年轻代中Eden区与Survivor区的大小比值,注意，Survivor有2个，这里是一个的比值。
 
 ### 类加载
+Java 虚拟机使用 Java 类的[方式](https://www.ibm.com/developerworks/cn/java/j-lo-classloader/index.html)如下：Java 源程序（.java 文件）在经过 Java 编译器编译之后就被转换成 Java 字节代码（.class 文件）。类加载器负责读取 Java 字节代码，并转换成 java.lang.Class类的一个实例。每个这样的实例用来表示一个 Java 类。通过此实例的 newInstance()方法就可以创建出该类的一个对象。而每个 Java 类都维护着一个指向定义它的类加载器的引用，通过 getClassLoader()方法就可以获取到此引用。
+
 1. 加载：
    - 通过类型的完全限定名，产生一个代表该类型的二进制数据流
    - 解析这个二进制数据流为方法区内的运行时数据结构
@@ -704,11 +707,42 @@
 1. 启动类加载器（Bootstrap ClassLoader）将存放在\lib目录的类库加载到虚拟机内存中
 2. 扩展类加载器（Extension ClassLoader）：它负责加载\lib\ext
 3. 应用程序类加载器AppClassLoader，负责加载用户类路径（ClassPath）上所指定的类库,
-4. 双亲委派模型的工作过程： 如果一个类加载器收到了类加载的请求，先把这个请求委派给父类加载器去完成（所以所有的加载请求最终都应该传送到顶层的启动类加载器中），只有当父加载器反馈自己无法完成加载请求时，子加载器才会尝试自己去加载。
+4. 双亲委派模型的工作过程： 如果一个类加载器收到了类加载的请求，先把这个请求委派给父类加载器去完成（所以所有的加载请求最终都应该传送到顶层的启动类加载器中），只有当父加载器反馈自己无法完成加载请求时，子加载器才会尝试自己去加载。即，真正完成类的加载工作是通过调用 defineClass来实现的；而启动类的加载过程是通过调用 loadClass来实现的。前者称为一个类的定义加载器defining loader，后者称为初始加载器initiating loader。一个类的定义加载器是它引用的其它类的初始加载器。(一个类引用了其他类，即最终加载这个类的加载器是引用类的初始加载器)如类 com.example.Outer引用了类 com.example.Inner，则由类 com.example.Outer的定义加载器负责启动类 com.example.Inner的加载过程。
+   > 方法 loadClass()抛出的是 java.lang.ClassNotFoundException异常；方法 defineClass()抛出的是 java.lang.NoClassDefFoundError异常。在遇到 ClassNotFoundException和 NoClassDefFoundError等异常的时候，应该检查抛出异常的类的类加载器和当前线程的上下文类加载器，从中可以发现问题的所在。
 5. [如何打破该机制](https://blog.csdn.net/zhouxcwork/article/details/81566636)：
-   - 沿用双亲委派机制自定义类加载器很简单，只需继承ClassLoader类并重写findClass方法即可。此方法要做的事情是读取Test.class字节流并传入父类的defineClass方法即可。
+   - 沿用双亲委派机制自定义类加载器很简单，只需继承ClassLoader类并重写findClass方法即可。此方法要做的事情是读取Test.class字节流并传入父类的defineClass方法即可。java.lang.ClassLoader类的方法 loadClass()会首先调用 findLoadedClass()方法来检查该类是否已经被加载过；如果没有加载过的话，会调用父类加载器的 loadClass()方法来尝试加载该类；如果父类加载器无法加载该类的话，就调用 findClass()方法来查找该类。因此，为了保证类加载器都正确实现代理模式，在开发自己的类加载器时，最好不要覆写 loadClass()方法，而是覆写 findClass()方法。
    - 打破：除了重写findClass方法外还重写了loadClass方法，默认的loadClass方法是实现了双亲委派机制的逻辑，即会先让父类加载器加载，当无法加载时才由自己加载。这里为了破坏双亲委派机制必须重写loadClass方法，即这里先尝试交由System类加载器加载，加载失败才会由自己加载。它并没有优先交给父类加载器，这就打破了双亲委派机制。
+6. Java 虚拟机是如何判定两个 Java 类是相同的。Java 虚拟机不仅要看类的全名是否相同，还要看加载此类的类加载器是否一样。只有两者都相同的情况，才认为两个类是相同的。
 
+		package com.example; 
+
+		public class Sample { 
+		   private Sample instance; 
+
+		   public void setSample(Object instance) { 
+		       this.instance = (Sample) instance; 
+		   } 
+		}
+	        //测试 类是否相同
+		public void testClassIdentity() { 
+		   String classDataRootPath = "C:\\workspace\\Classloader\\classData"; 
+		   //2个类加载器从同一个文件下加载同一个类的定义
+		   FileSystemClassLoader fscl1 = new FileSystemClassLoader(classDataRootPath); 
+		   FileSystemClassLoader fscl2 = new FileSystemClassLoader(classDataRootPath); 
+		   String className = "com.example.Sample";    
+		   try {
+		       Class<?> class1 = fscl1.loadClass(className); 
+		       Object obj1 = class1.newInstance(); 
+		       Class<?> class2 = fscl2.loadClass(className); 
+		       Object obj2 = class2.newInstance(); 
+		       //加载后的两个对象，试图相互转化，将报错java.lang.ClassCastException
+		       Method setSampleMethod = class1.getMethod("setSample", java.lang.Object.class); 
+		       setSampleMethod.invoke(obj1, obj2); 
+		   } catch (Exception e) { 
+		       e.printStackTrace(); 
+		   } 
+		}
+		
 ## 异常
 1. [算术异常类](https://www.cnblogs.com/cvst/p/5822373.html)：ArithmeticExecption。除以0等。
 2. 空指针异常类：NullPointerException
