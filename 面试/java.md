@@ -334,6 +334,35 @@
    - JDK动态代理：实现InvocationHandler接口，通过Proxy类动态的创建了一个代理类。jdk代理只能代理接口，而cglib没有这个限制
    - CGLIB:使用ASM来代理普通类。但是不能代理final。final类不能被继承、没有子类、final类中修饰的方法默认是final。
        >ASM是一个java字节码操控框架，可以以二进制的形式修改已有类.
+6. BeanFactory+FactoryBean
+   1. FactoryBean,是Bean。在Bean产生以后，还可以自定义继续构造Bean。
+      - getObject希望你返回需要注册到Spring容器中去的bean实体
+      - getObjectType希望你返回你注册的这个Object的具体类型
+      - isSingleton方法希望你返回这个bean是不是单例的，如果是，那么Spring容器全局将只保持一个该实例对象，否则每次getBean都将获取到一个新的该实例对象。
+6. JDK代理
+
+		public interface SimpleProxy { 
+
+		    public void simpleMethod1(); 
+
+		    public void simpleMethod2(); 
+
+		}
+		//生成的代理类
+		public class $Proxy2 extends java.lang.reflect.Proxy implements SimpleProxy{ 
+		    java.lang.reflect.Method m0; 
+		    java.lang.reflect.Method m1; 
+		    java.lang.reflect.Method m2; 
+		    java.lang.reflect.Method m3; 
+		    java.lang.reflect.Method m4; 
+
+		    int hashCode(); 
+		    boolean equals(java.lang.Object); 
+		    java.lang.String toString(); 
+		    //这个类的方法将调用 InvocationHandler 的 invoke 方法,完成对原调用的调用，并实现增强。
+		    void simpleMethod1(); 
+		    void simpleMethod2(); 
+		}
 ## spring事务
 1. [结论](http://blog.itpub.net/69900354/viewspace-2565243/)：
    - 如果是编译时异常不会自动回滚，如果是运行时异常，那会自动回滚！
