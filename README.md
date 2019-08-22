@@ -29,8 +29,9 @@
    - 过滤字母数字：`s.replaceAll("[^A-Za-z0-9]", ""); `
    
 2. [通配符和边界](https://www.cnblogs.com/drizzlewithwind/p/6100164.html)来源。
-   - `<? extends T>`,上界通配符。能放一切继承自T的类
-   - `<? super T>`,下界通配符。能放T及T继承的类，但不能放T的派生类。
+   - `<? extends T>`,上界通配符。能放一切继承自T的类.频繁往外读取内容的,适合用<? extends T >。
+   - `<? super T>`,下界通配符。能放T及T继承的类，但不能放T的派生类。经常往里插入的,适合用 <? super T> 。
+   
 2. 新特性：
    1. default接口
    2. `::`，[双冒号](https://www.cnblogs.com/tietazhan/p/7486937.html)
