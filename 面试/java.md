@@ -512,11 +512,79 @@
 
 ## ConCurrentHashMap
 1. 特性：
-   - JDK1.8底层是散列表+红黑树
+   - JDK1.8底层是链表+数组+红黑树
    - 支持高并发的访问和更新，线程安全
    - 检索操作不用加锁，get方法非阻塞
    - key和value都不允许为null
-    >Hashtable是在每个方法上都加上了Synchronized完成同步，效率低下。ConcurrentHashMap通过在部分加锁和利用CAS算法来实现同步。
+    >Hashtable是在每个方法上都加上了Synchronized完成同步，效率低下。1.8的ConcurrentHashMap通过在部分加锁和利用CAS算法来实现同步。1.7是采用分段锁。
+2. [在原先HashMap的基础上采取的方案](https://www.jianshu.com/p/c0642afe03e0)：
+   1. put
+   
+                   //无限循环插入
+		   for (Node<K,V>[] tab = table;;) {
+			    Node<K,V> f; int n, i, fh;
+			    //如果table没有就先初始化，进入下一次循环插入
+			    if (tab == null || (n = tab.length) == 0)
+				tab = initTable();
+			    //如果桶中当前位置没有元素，直接用cas原则插入，无需加锁。
+			    //如果CAS成功，说明Node节点已经插入，随后addCount(1L, binCount)方法会检查当前容量是否需要进行扩容。
+                            //如果CAS失败，说明有其它线程提前插入了节点，自旋重新尝试在这个位置插入节点。
+			    else if ((f = tabAt(tab, i = (n - 1) & hash)) == null) {
+				if (casTabAt(tab, i, null,
+					     new Node<K,V>(hash, key, value, null)))
+				    break;                   // no lock when adding to empty bin
+			    }
+			    //说明当前f是ForwardingNode节点，意味有其它线程正在扩容，则一起进行扩容操作。
+			    else if ((fh = f.hash) == MOVED)
+                		tab = helpTransfer(tab, f);
+			    //如果冲突，即table处已经有值，此时值为f，链表中的第一个节点，也就是从这个节点开始拉链,在节点f上进行同步
+			    else {
+				V oldVal = null;
+				synchronized (f) {
+				    if (tabAt(tab, i) == f) {
+					if (fh >= 0) {
+					    binCount = 1;
+					    for (Node<K,V> e = f;; ++binCount) {
+						K ek;
+						if (e.hash == hash &&
+						    ((ek = e.key) == key ||
+						     (ek != null && key.equals(ek)))) {
+						    oldVal = e.val;
+						    if (!onlyIfAbsent)
+							e.val = value;
+						    break;
+						}
+						Node<K,V> pred = e;
+						if ((e = e.next) == null) {
+						    pred.next = new Node<K,V>(hash, key,
+									      value, null);
+						    break;
+						}
+					    }
+					}
+					// 如果f是树节点，采用红黑树处理
+					else if (f instanceof TreeBin) {
+					    Node<K,V> p;
+					    binCount = 2;
+					    if ((p = ((TreeBin<K,V>)f).putTreeVal(hash, key,
+									   value)) != null) {
+						oldVal = p.val;
+						if (!onlyIfAbsent)
+						    p.val = value;
+					    }
+					}
+				    }
+				}
+				if (binCount != 0) {
+				    if (binCount >= TREEIFY_THRESHOLD)
+					treeifyBin(tab, i);
+				    if (oldVal != null)
+					return oldVal;
+				    break;
+				}
+			    }//end of else
+			    ........
+	           }
     
     
     
