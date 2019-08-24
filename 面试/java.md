@@ -438,6 +438,30 @@
    - 所需容量minCapacity与当前容量elementData.length比较，如果数组长度不够，扩容1.5倍。如果还小，扩充为minCapacity。返回`Arrays.copyOf(elementData, newCapacity);`而Arrays.copyOf底层是System.arraycopy。
 3. `remove(int index)`方法，跟`add(int index,E element)`一样，底层元素移动都是System.arraycopy实现。删除元素时不会减少容量，若减少容量则调用trimToSize()
 
+### 线程安全的ArrayList
+1. Collections.synchronizedList(list)
+   1. 在所有方法都加关键字，另外官方文档是建议我们在遍历的时候加锁处理的。
+   
+		   List list = Collections.synchronizedList(new ArrayList());
+		   synchronized (list) {
+		      Iterator i = list.iterator(); // Must be in synchronized block
+		      while (i.hasNext())
+			  foo(i.next());
+		   }
+		   //因为该方法没加锁
+		   @Override
+		   public Iterator<T> iterator() {
+		       return backingList.iterator();
+		   }
+2. CopyOnWriteArrayList
+   1. add(E)时直接用ReentrantLock锁住代码块。拷贝一份新的，指向原数组，并且使用volatile修饰数组来保证修改后的可见性。
+      
+       	private transient volatile Object[] array;
+   2. add(int,E)同样用该锁，然后按index分2部分进行copy出一份新的数组进行相关的操作，在执行完修改操作后将原来集合指向新的集合来完成修改操作；
+3. 特性：
+   1. synchronizedList适合对数据要求较高的情况，但是因为读写全都加锁，所有效率较低。
+   2. CopyOnWriteArrayList效率较高，适合读多写少的场景，因为在读的时候读的是旧集合，所以它的实时性不高。
+
 ### LinkedList
 1. 结构图8：
 
@@ -482,6 +506,7 @@
 
    <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/9Hashmap.png" width=80% height=80% />
 2. 底层数组+链表(拉链法)，即散列表
+3. Hashmap的扩容需要满足两个条件：当前数据存储的数量（即size()）大小必须大于等于阈值；当前加入的数据是否发生了hash冲突
 3. `put(K key,V value)`方法。
    - 以key计算哈希值,这里面的key.hashCode()是Object方法，就是任何对象都有一个哈希码hashCode。接着计算`hashCode^hashCode>>>16`，才是最终的哈希值。下面解释这样计算的原因。
      
