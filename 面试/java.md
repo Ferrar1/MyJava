@@ -289,37 +289,43 @@
    - 注入属性：之前如果不注入，就需要自己每次都new一个对象，现在Bean实现了 BeanFactoryAware 接口，则将容器的引用传入到 Bean 中去，这样，Bean 将获取对容器操作的权限，也就是可以根据bean的名字来获取容器中的对象。
 3. [源码分析](http://www.importnew.com/27469.html)
    
-## springmvc流程
-1. 客户端发送请求，直接请求到DispatcherServlet。
+## springmvc源码
+1. [来源](https://dzone.com/articles/how-spring-mvc-really-works)
+1. 客户端以URI形式向Web服务发送请求，直接请求到DispatcherServlet。
 
-2. DispatcherServlet 根据请求信息调用 HandlerMapping，解析请求对应的 Handler：这里首先通过请求获取一个处理链
+2. 为了找到与请求匹配的处理程序，DispatcherServlet浏览了HandlerMapping接口的已注册实现：
+   1. `SimpleUrlHandlerMapping`可以通过配置文件找到
+      
+          /welcome.html=ticketController
+          /show.html=ticketController
+   2. `RequestMappingHandlerMapping`应用最多，它将请求映射到Controller类的注解了@RequestMapping的方法上。
+3. 根据请求路径来匹配到HandlerMapping，获取请求对应的 Handler：这里首先通过请求获取一个处理链，这个mappedHandler就是对Handler的一个封装，里面包括Handler属性、以及拦截器。
 
-		HandlerExecutionChain mappedHandler = getHandler(processedRequest); 
-     
-    这个mappedHandler就是对Handler的一个封装，里面包括Handler属性、以及拦截器。
-
-3. 解析到对应的 Handler（也就是我们平常说的 Controller 控制器）后，开始由 HandlerAdapter 适配器处理：**处理器适配器的出现，是为了处理不同类型的Handler，这个类型指的是处理请求映射的方式**。有的是通过在类的上面加注解@Controller来进行映射处理。有的handler是通过实现Controller接口。（具体使用的时候就根据自己在配置文件中选择的适配器来选择配置相应的Handler）。源码中doDispatch方法：
+        HandlerExecutionChain mappedHandler = getHandler(processedRequest); 
+3. 然后开始匹配对应Handler（也就是我们平常说的 Controller 控制器）的适配器HandlerAdapter，接着由 HandlerAdapter调用handle方法来调用真正的处理器完成处理：处理器适配器的出现，是为了调用不同类型的Handler。在源码doDispatch中：
    
     	HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
-   getHandlerAdapter函数参数为handler，内部foreach对所有适配器进行遍历，每一个适配器都有support方法，输入handler是否是某一类型的实例，来判断是否支持某一类适配器。如SimpleControllerHandlerAdapter这个适配器return (handler instanceof Controller);说明适配器都是写好了的，需要新的bean加载方式就新建新的适配器。另外，HandlerAdapter这个接口有3个方法，主要是里面的handle方法。适配器的作用就是针对不同类型的handler，通过这个handle方法来执行控制器的具体逻辑。   
-  例如：    
-  
-    - 对于这种AbstractHandlerMethodAdapter，handle重写的内容是   
+   getHandlerAdapter函数参数为handler，内部foreach对所有适配器进行遍历，每一个适配器都有support方法，输入handler是否是某一类型的实例，来判断是否支持某一类适配器。如SimpleControllerHandlerAdapter这个适配器return (handler instanceof Controller);说明适配器都是写好了的，需要新的bean加载方式就新建新的适配器。另外，HandlerAdapter这个接口有3个方法，主要是里面的handle方法。适配器的作用就是针对不同类型的handler，通过这个handle方法来执行控制器的具体逻辑。      
    
-    		return handleInternal(request, response, (HandlerMethod) handler);    
-    - 而SimpleControllerHandlerAdapter，重写内容   
-
-     		return ((Controller) handler).handleRequest(request, response);
- 
-   这就说明，适配器适配的是不同类型的handler。对应于不同处理请求映射的方式。
-4. HandlerAdapter 会根据 Handler 来调用真正的处理器开处理请求，并处理相应的业务逻辑：具体逻辑就在handle方法中。
 5. 处理器处理完业务后，会返回一个 ModelAndView 对象，Model 是返回的数据对象，View 是个逻辑上的 View。
+   1. SimpleControllerHandlerAdapter这类适配器，返回内容。返回ModelAndView对象并且不自行呈现视图
+   
+	      public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		    return ((Controller) handler).handleRequest(request, response);
+	      }
+   2. SimpleServletHandlerAdapter适配器返回null。只是自己处理请求，渲染结果到响应对象
+   
+              public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+		    ((Servlet) handler).service(request, response);
+		    return null;
+	      }
 6. ViewResolver 会根据逻辑 View 查找实际的 View。
 7. DispaterServlet 把返回的 Model 传给 View（视图渲染）。   
    这个model就是一个map,将里面的值一个一个赋值给request。
 8. 把 View 返回给请求者（浏览器）
 
 >适配器模式在使用的时候，除了处理事件的handle方法，还需要一个support方法来，用以遍历循环，进行适配找到合适的适配器处理。
+
 
 ## spring注解
 1. [Autowired](https://www.jianshu.com/p/83a79018580f)还可以注入List、Map、数组等相同类型bean。源码中doResolveDependency方法调用了resolveMultipleBeans方法：判断注入类型
