@@ -87,12 +87,16 @@
    
 --------------------
 ## pom
-1. jar打包依赖。springboot
+1. [jar打包依赖](https://www.ibm.com/developerworks/cn/java/j-5things13/index.html)。springboot
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!-- 告知 maven-jar-plugin 添加一个 Class-Path 元素到 MANIFEST.MF 文件 -->
+                    <!--<addClasspath>true</addClasspath>-->
+                    <!-- 如果您计划在同一目录下包含有您的所有依赖项，作为您将构建的 JAR，那么您可以忽略它，否则所有的依赖项应该位于 “lib” 文件夹-->
+                    <!--<classpathPrefix>lib/</classpathPrefix>-->
                     <!-- 指定该Main Class为全局的唯一入口 -->
                     <mainClass>com.example.demo.DemoApplication</mainClass>
                     <layout>ZIP</layout>
