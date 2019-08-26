@@ -779,7 +779,7 @@
 >-XXSurvivorRatio年轻代中Eden区与Survivor区的大小比值,注意，Survivor有2个，这里是一个的比值。
 
 ### 类加载
-Java 虚拟机使用 Java 类的[方式](https://www.ibm.com/developerworks/cn/java/j-lo-classloader/index.html)如下：Java 源程序（.java 文件）在经过 Java 编译器编译之后就被转换成 Java 字节代码（.class 文件）。类加载器负责读取 Java 字节代码，并转换成 java.lang.Class类的一个实例。每个这样的实例用来表示一个 Java 类。通过此实例的 newInstance()方法就可以创建出该类的一个对象。而每个 Java 类都维护着一个指向定义它的类加载器的引用，通过 getClassLoader()方法就可以获取到此引用。
+[Java](https://dzone.com/articles/jvm-architecture-explained) 虚拟机使用 Java 类的[方式](https://www.ibm.com/developerworks/cn/java/j-lo-classloader/index.html)如下：Java 源程序（.java 文件）在经过 Java 编译器编译之后就被转换成 Java 字节代码（.class 文件）。类加载器负责读取 Java 字节代码，并转换成 java.lang.Class类的一个实例。每个这样的实例用来表示一个 Java 类。通过此实例的 newInstance()方法就可以创建出该类的一个对象。而每个 Java 类都维护着一个指向定义它的类加载器的引用，通过 getClassLoader()方法就可以获取到此引用。
 
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/类加载.png" width=70% height=70% />
 
