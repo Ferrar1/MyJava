@@ -302,24 +302,30 @@
 3. 根据请求路径来匹配到HandlerMapping，获取请求对应的 Handler：这里首先通过请求获取一个处理链，这个mappedHandler就是对Handler的一个封装，里面包括Handler属性、以及拦截器。
 
         HandlerExecutionChain mappedHandler = getHandler(processedRequest); 
-3. 然后开始匹配对应Handler（也就是我们平常说的 Controller 控制器）的适配器HandlerAdapter，接着由 HandlerAdapter调用handle方法来调用真正的处理器完成处理：处理器适配器的出现，是为了调用不同类型的Handler。在源码doDispatch中：
+3. 然后开始匹配对应Handler（也就是我们平常说的 Controller 控制器）的适配器HandlerAdapter，接着由 HandlerAdapter调用handle方法来调用真正的Controller完成处理：处理器适配器的出现，是为了调用不同类型的Handler。在源码doDispatch中：
    
     	HandlerAdapter ha = getHandlerAdapter(mappedHandler.getHandler());
    getHandlerAdapter函数参数为handler，内部foreach对所有适配器进行遍历，每一个适配器都有support方法，输入handler是否是某一类型的实例，来判断是否支持某一类适配器。如SimpleControllerHandlerAdapter这个适配器return (handler instanceof Controller);说明适配器都是写好了的，需要新的bean加载方式就新建新的适配器。另外，HandlerAdapter这个接口有3个方法，主要是里面的handle方法。适配器的作用就是针对不同类型的handler，通过这个handle方法来执行控制器的具体逻辑。      
    
-5. 处理器处理完业务后，会返回一个 ModelAndView 对象，Model 是返回的数据对象，View 是个逻辑上的 View。
-   1. SimpleControllerHandlerAdapter这类适配器，返回内容。返回ModelAndView对象并且不自行呈现视图
+5. 处理器处理业务时的方式
+   1. SimpleControllerHandlerAdapter这类适配器，返回内容。返回ModelAndView对象并且不自行呈现视图。Model 是返回的数据对象，View 是个逻辑上的 View。
    
 	      public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		    return ((Controller) handler).handleRequest(request, response);
 	      }
    2. SimpleServletHandlerAdapter适配器返回null。只是自己处理请求，渲染结果到响应对象
    
-              public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		    ((Servlet) handler).service(request, response);
+              public ModelAndView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
+                    ((Servlet) handler).service(request, response);
 		    return null;
 	      }
-6. ViewResolver 会根据逻辑 View 查找实际的 View。
+	      
+6. 实际的Controller中的方法参数和返回值的处理，由RequestMappingHandlerAdapter来完成。
+   1. Controller的方法通常不接受HttpServletRequest和HttpServletResponse参数，而是接收和返回许多不同类型的数据。而这，由RequestMappingHandlerAdapter来完成从HttpServletRequest中解析出参数。
+   2. 返回值不需要返回ModelAndView，而是可以转化为json的Entity或者view的名字（具体HTML文件）
+      - 当您从hello（）方法返回一个字符串时，ViewNameMethodReturnValueHandler会处理该值
+      - 当你从login（）方法返回一个准备好的ModelAndView时，Spring使用了ModelAndViewMethodReturnValueHandler
+6. 当前Spring已经处理了HTTP请求并收到了一个ModelAndView对象，需要呈现用户将在浏览器中看到的HTML页面。
 7. DispaterServlet 把返回的 Model 传给 View（视图渲染）。   
    这个model就是一个map,将里面的值一个一个赋值给request。
 8. 把 View 返回给请求者（浏览器）
