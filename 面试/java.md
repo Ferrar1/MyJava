@@ -325,7 +325,7 @@
    2. 返回值不需要返回ModelAndView，而是可以转化为json的Entity或者view的名字（具体HTML文件）
       - 当您从hello（）方法返回一个字符串时，ViewNameMethodReturnValueHandler会处理该值
       - 当你从login（）方法返回一个准备好的ModelAndView时，Spring使用了ModelAndViewMethodReturnValueHandler
-6. 当前Spring已经处理了HTTP请求并收到了一个ModelAndView对象，需要呈现用户将在浏览器中看到的HTML页面。
+6. 当前Spring已经处理了HTTP请求并收到了一个ModelAndView对象，需要呈现用户将在浏览器中看到的HTML页面。解析model将其渲染到view上，然后发送。
 7. DispaterServlet 把返回的 Model 传给 View（视图渲染）。   
    这个model就是一个map,将里面的值一个一个赋值给request。
 8. 把 View 返回给请求者（浏览器）
