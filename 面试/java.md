@@ -287,7 +287,11 @@
 2. 使用spring的好处：
    - 单例模式：有时候一些类是不需要多个对象的，例如数据库连接池的连接对象connection，只需要一个就好了。在spring里面，例如一些bean例如service层，完全可以交给spring容器管理。
    - 注入属性：之前如果不注入，就需要自己每次都new一个对象，现在Bean实现了 BeanFactoryAware 接口，则将容器的引用传入到 Bean 中去，这样，Bean 将获取对容器操作的权限，也就是可以根据bean的名字来获取容器中的对象。
-3. [源码分析](http://www.importnew.com/27469.html)
+3. 启动过程，Spring的启动过程实际上就是Ioc容器初始化以及载入Bean的过程
+   1. 构建 BeanFactory，同时加载BeanDefinitions，以便把用户定义的数据结构转化为 Ioc 容器中的特定数据结构。接着，对已经构建的 BeanFactory 的配置做修改，例如获取用户定义的实现了 BeanPostProcessor 接口的子类，并执行把它们注册到 BeanFactory 对象中的 beanPostProcessors 变量中
+   2. 注册可能感兴趣的事件
+   3. 创建 Bean 实例对象
+   4. 触发被监听的事件
    
 ## springmvc源码
 1. [来源](https://dzone.com/articles/how-spring-mvc-really-works)
@@ -325,9 +329,8 @@
    2. 返回值不需要返回ModelAndView，而是可以转化为json的Entity或者view的名字（具体HTML文件）
       - 当您从hello（）方法返回一个字符串时，ViewNameMethodReturnValueHandler会处理该值
       - 当你从login（）方法返回一个准备好的ModelAndView时，Spring使用了ModelAndViewMethodReturnValueHandler
-6. 当前Spring已经处理了HTTP请求并收到了一个ModelAndView对象，需要呈现用户将在浏览器中看到的HTML页面。解析model将其渲染到view上，然后发送。
-7. DispaterServlet 把返回的 Model 传给 View（视图渲染）。   
-   这个model就是一个map,将里面的值一个一个赋值给request。
+      - 当在方法上使用@ResponseBody批注时，Spring会转换返回值并自动将其写入HTTP响应，因此出现了RestController:对每个方法的返回值都会直接转换为json,不需在方法前面加@ResponseBody,但是不能返回jsp,html页面，视图解析器无法解析jsp,html页面
+6. 当前Spring已经处理了HTTP请求并收到了一个ModelAndView对象，需要呈现用户将在浏览器中看到的HTML页面。解析model将其渲染到view上， 这个model就是一个map,将里面的值一个一个赋值给request。然后发送。
 8. 把 View 返回给请求者（浏览器）
 
 >适配器模式在使用的时候，除了处理事件的handle方法，还需要一个support方法来，用以遍历循环，进行适配找到合适的适配器处理。
