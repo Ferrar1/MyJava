@@ -986,6 +986,9 @@
    - zset(sorted set：有序集合)，不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。zset的成员是唯一的,但分数(score)却可以重复。
      - `zadd runoob 0 redis`
      - `ZRANGEBYSCORE runoob 0 1000`
+3. [zset底层](https://lijh.dev/2019/03/19/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Redis-Zset%E5%8E%9F%E7%90%86/)：字典+跳表
+
+    <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/skiplist.png" width=50% height=50% />
 
 ### redis做消息队列
 1. 通过2个命令实现pub/sub模式的消息通知
