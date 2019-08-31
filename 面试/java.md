@@ -870,7 +870,28 @@
    - IO是面向流的，NIO是面向缓冲区的。
    - IO流是阻塞的，NIO流是不阻塞的。NIO中，一个线程请求写入一些数据到某通道，但不需要等待它完全写入，这个线程同时可以去做别的事情。而IO则是：当一个线程调用read() 或 write()时，该线程被阻塞，直到有一些数据被读取，或数据完全写入。该线程在此期间不能再干任何事情了
    - Selectors（选择器）。选择器用于使用单个线程处理多个通道。线程之间的切换对于操作系统来说是昂贵的。 选择器是一个可以监视多个通道的对象，使用Selector的话，我们必须把Channel注册到Selector上，然后就可以调用Selector的select()方法。这个方法会进入阻塞，直到有一个channel的状态符合条件。当方法返回后，线程可以处理这些事件
-
+#### 原理
+1. [来源1](https://tech.meituan.com/2016/11/04/nio.html)
+2. [来源2](https://segmentfault.com/a/1190000003063859) 
+2. NIO的主要事件有几个：读就绪、写就绪、有新连接到来
+3. 首先需要注册当这几个事件到来的时候所对应的处理器,然后在合适的时机告诉事件选择器：我对这个事件感兴趣
+4. 用一个死循环选择就绪的事件：
+   2. 当用户进程调用了selector.select，没有事件到来，那么整个进程会被block。而同时，kernel会“监视”所有selector负责的socket。
+   1. 如果有事件到来，即任何一个socket中的数据准备好了，将执行系统调用（Linux 2.6之前是select、poll，2.6之后是epoll）。新事件到来的时候，会在selector上注册标记位，标示可读、可写或者有连接到来。这个时候用户进程再调用read操作，将数据从kernel拷贝到用户进程
+    >select是阻塞的，无论是通过操作系统的通知（epoll）还是不停的轮询(select，poll)，这个函数是阻塞的。所以你可以放心大胆地在一个while(true)里面调用这个函数而不用担心CPU空转。
+5. select，poll，epoll都是IO多路复用的机制，但本质上都是同步I/O，而异步I/O则无需自己负责进行读写.
+   1. `int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct timeval *timeout);`底层数组
+      1. select监视writefds、readfds、和exceptfds。
+      2. 调用后select函数会阻塞，直到有描述副就绪（有数据 可读、可写、或者有except），或者超时（timeout指定等待时间，如果立即返回设为null即可），函数返回。当select函数返回后，可以通过遍历fdset，来找到就绪的描述符。
+      3. 缺点在于单个进程能够监视的文件描述符的数量存在最大限制,Linux上一般为1024
+   2. poll,和select函数一样，poll返回后，需要轮询pollfd来获取就绪的描述符。select和poll都需要在返回后，通过遍历文件描述符来获取已经就绪的socket。事实上，同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。底层链表。
+   3. epoll。底层红黑树
+      1. `int epoll_create(int size);`,创建一个epoll的句柄，参数size并不是限制了epoll所能监听的描述符最大个数，只是对内核初始分配内部数据结构的一个建议
+      2. `int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event)；`对指定描述符fd执行op操作，即红黑树进行增删改
+      3. `int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);`返回需要处理的事件数目，如返回0表示已超时。
+   4. epoll对上面2个的缺点处理：
+      1. 监视的描述符数量不受限制，就是树的大小。
+      1. 遍历：epoll事先通过epoll_ctl()来注册一个文件描述符，一旦基于某个文件描述符就绪时，内核会采用类似callback的回调机制，迅速激活这个文件描述符，当进程调用epoll_wait() 时便得到通知。此处去掉了遍历文件描述符，而是通过监听回调的的机制。
 #### Channel
 [来源](https://mp.weixin.qq.com/s?__biz=MzU4NDQ4MzU5OA==&mid=2247483966&idx=1&sn=d5cf18c69f5f9ec2aff149270422731f&chksm=fd98545fcaefdd49296e2c78000ce5da277435b90ba3c03b92b7cf54c6ccc71d61d13efbce63#rd)
 
