@@ -31,6 +31,13 @@
 9. 服务端返回一个HTTP响应请求
 10. 浏览器开始渲染拿到的HTML文件
 
+## http请求内容
+1. Host: www.study.com  // 请求的地址域名和端口，不包括协议
+2. Connection: keep-alive  // 连接类型，持续连接
+3. User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.96 Safari/537.36  //浏览器的用户代理信息
+4. Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,`*/*`;q=0.8     //浏览器支持的请求类型
+5. Accept-Encoding: gzip, deflate, sdch   //浏览器能处理的压缩代码
+5. Accept-Language: zh-CN,zh;q=0.8,en;q=0.6  //浏览器当前设置语言
 ## 转发(Forward)和重定向(Redirect)的区别
 1. 重定向的执行过程：Web服务器向浏览器发送一个http响应->浏览器接受此响应后再发送一个新的http请求到服务器->服务器根据此请求寻找资源并发送给浏览器。它可以重定向到任意URL，不能共享request范围内的数据。
 2. 重定向是在客户端发挥作用.
