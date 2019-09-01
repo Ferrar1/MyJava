@@ -490,14 +490,15 @@
 # 集合框架
 [来源](https://segmentfault.com/a/1190000014240704)。
 
-<img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/7ArrayList.png" width=80% height=80% />
+   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/collect.jpeg" width=80% height=80% />
+
 ## list
 1. 特点：有序，存储顺序与取出顺序一致。
 
 ### ArrayList
 1. 结构图7：
 
-   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/collect.jpeg" width=80% height=80% />
+   <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/7ArrayList.png" width=80% height=80% />
 2. 实现了List接口，可以List基本操作；实现了RandomAccess接口，作为一个标识，表示可以快速随机访问元素。
 1. 底层数组，线程不安全。将数据存在Object[] elementData中。
 2. `add(E e)`方法：
