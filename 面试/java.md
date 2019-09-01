@@ -827,30 +827,32 @@
 <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/10jvm分区.png" width=70% height=70% />
 
 5. G1收集器
-
-    特点：
-    - 空间整合，G1收集器采用标记整理算法，不会产生内存空间碎片。
-    - 可预测停顿，G1除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者明确指定在一个长度为N毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒。
-    - 使用G1收集器时，Java堆的内存布局与其他收集器有很大差别，如下图。
-
-    提供了3种模式回收垃圾
-    - young GC，当所有eden region被耗尽无法申请内存时，就会触发一次young gc。执行完一次young gc，活跃对象会被拷贝到survivor region或者晋升到old region中，空闲的region会被放入空闲列表中，等待下次被使用
-      - -XX:MaxGCPauseMillis	设置G1收集过程目标时间，默认值200ms
-      - -XX:G1NewSizePercent	新生代最小值，默认值5%
-      - -XX:G1MaxNewSizePercent	新生代最大值，默认值60%
-    - mixed gc，除了回收整个young region，还会回收一部分的old region
-      - -XX:InitiatingHeapOccupancyPercent，当老年代大小占整个堆大小百分比达到该阈值时，会触发一次mixed gc
-    - full gc
+   1. 特点：
+      - 空间整合，G1收集器采用标记整理算法，不会产生内存空间碎片。
+      - 可预测停顿，G1除了追求低停顿外，还能建立可预测的停顿时间模型，能让使用者明确指定在一个长度为N毫秒的时间片段内，消耗在垃圾收集上的时间不得超过N毫秒。
+      - 使用G1收集器时，Java堆的内存布局与其他收集器有很大差别.其中E、S属于年轻代，O与H属于老年代。H巨型对象，当分配的对象大于等于Region大小的一半的时候就会被认为是巨型对象。H对象默认分配在老年代，可以防止GC的时候大对象的内存拷贝。
     
-    过程：
-    - 初始标记，只是标记一下GC Roots能直接关联到的对象
-    - 根分区扫描Root Region Scanning，在初始标记暂停结束后，年轻代收集就完成的对象复制到Survivor的工作。这时为了保证标记算法的正确性，所有新复制到Survivor分区的对象，都需要被扫描并标记成根
-    - 并发标记Concurrent Marking，若发现区域对象中的所有对象都是垃圾，那个这个区域会被立即回收
-    - 再标记，再标记阶段是用来收集并发标记阶段产生新的垃圾(并发阶段和应用程序一同运行)
-    - 筛选回收，在筛选回收阶段首先对各个Region的回收价值和成本进行排序，根据用户所期望的GC停顿时间来制定回收计划
+        <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/G1.png" width=70% height=70% />
+    
 
-    参数配置
-    - -XX:+UseG1GC -Xmx32g -XX:MaxGCPauseMillis=200，设置GC的最大暂停时间为200ms.
+   2. 提供了3种模式回收垃圾
+      - young GC，当所有E区被耗尽无法申请内存时，就会触发一次young gc。E区的对象会移动到S区，当S区空间不够的时候，E区的对象会直接晋升到O区。
+        - -XX:MaxGCPauseMillis	设置G1收集过程目标时间，默认值200ms
+        - -XX:G1NewSizePercent	新生代最小值，默认值5%
+        - -XX:G1MaxNewSizePercent	新生代最大值，默认值60%
+      - mixed gc，除了回收整个young region，还会回收一部分的old region
+        - -XX:InitiatingHeapOccupancyPercent，当老年代大小占整个堆大小百分比达到该阈值时，会触发一次mixed gc
+      - full gc，采用Serial GC
+    
+   3. mixed gc过程：
+      - 初始标记，只是标记一下GC Roots能直接关联到的对象
+      - 根分区扫描Root Region Scanning，在初始标记暂停结束后，年轻代收集就完成的对象复制到Survivor的工作。这时为了保证标记算法的正确性，所有新复制到Survivor分区的对象，都需要被扫描并标记成根
+      - 并发标记Concurrent Marking，标记线程与应用程序线程并行执行。
+      - 再标记，再标记阶段是用来收集并发标记阶段产生新的垃圾(并发阶段和应用程序一同运行)
+      - 筛选回收，在筛选回收阶段首先对各个Region的回收价值和成本进行排序，根据用户所期望的GC停顿时间来制定回收计划
+
+   4. 参数配置
+      - -XX:+UseG1GC -Xmx32g -XX:MaxGCPauseMillis=200，设置GC的最大暂停时间为200ms.
 
 >-Xmx最大堆,
 >
