@@ -344,7 +344,17 @@
 
 
 ## spring注解
-1. [Autowired](https://www.jianshu.com/p/83a79018580f)还可以注入List、Map、数组等相同类型bean。源码中doResolveDependency方法调用了resolveMultipleBeans方法：判断注入类型
+1. [Autowired](https://www.jianshu.com/p/83a79018580f)
+   - 还可以注入List、Map、数组等相同类型bean。源码中doResolveDependency方法调用了resolveMultipleBeans方法：判断注入类型
+   - 默认按类型装配
+   - 如果我们想使用名称装配可以结合@Qualifier注解进行使用
+   
+		   @Autowired   
+		   @Qualifier("userServiceImpl")   
+		   public IUserService userService; 
+2. @Resource
+   - 默认按照名称进行装配
+   - 名称可以通过name属性进行指定，也可以type指定。
 
 
 ## spring的aop与ioc
