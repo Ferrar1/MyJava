@@ -96,9 +96,11 @@
 5. [count()](https://msd.misuland.com/pd/2884250068896976750)函数。COUNT()有两个非常不同的作用：它可以统计某个列值的数量，也可以统计行数。在统计列值时要求列值是非空的（不统计NULL）。**如果在COUNT()的括号中定了列或者列表达式，则统计的就是这个表达式有值的结果数。**COUNT()的另一个作用是统计结果集的行数。当MySQL确认括号内的表达式值不可能为空时，实际上就是在统计行数。最简单的就是当我们使用COUNT(*)的时候，这种情况下通配符*并不像我们猜想的那样扩展成所有的列，实际上，他会忽略所有列而直接统计所有的行数.
    - MyISAM。MyISAM在统计表的总行数的时候会很快，但是有个大前提，不能加有任何WHERE条件。这是因为：MyISAM对于表的行数做了优化，具体做法是有一个变量存储了表的行数
    - Innodb。 5.5及以后，是没有什么区别的。通常，我们将第一个字段（一般是ID）作为主键，那么这个时候COUNT(1)实际统计的就是行数。一个优化方案就是预先建一个小字段并建二级索引专门用来统计行数.
-   - 任何情况下select count(*) from tablename是最优选择；
-   - 尽量减少select count(*) from tablename where COL = ‘value’这种查询；
-   - 杜绝select count(COL) from tablename where COL2 = ‘value’的出现。
+   - 任何情况下`select count(*) from tablename`是最优选择；
+   - 尽量减少`select count(*) from tablename where COL = ‘value’`这种查询；
+   - 杜绝`select count(COL) from tablename where COL2 = ‘value’`的出现。
+1. `limit 1000000 10`如何进行优化
+   - 记录每次取出后的最大id 然后 where id = 最大id limit 10；
 ## sql语法：
 1. desc\asc.用于降序升序。语法：`field desc`.有时候可能需要在前面加`,`
 1. having，通常与GROUP BY语句联合使用，用来过滤由GROUP BY语句返回的记录集。如果想查询平均分高于80分的学生记录可以这样写，这里如果是where就出错：
@@ -288,6 +290,10 @@
     > 线程间通信的主要目的是用于线程同步，所以线程没有象进程通信中用于数据交换的通信机制
 
 # spring
+## spring三种注入方式
+1. 属性注入方法，通过setXXX()方法注入Bean的属性值或者依赖对象
+2. 构造函数注入方法，前提是：bean必须提供带参的构造函数
+3. 工厂方法注入方法
 [一切框架]((https://www.ibm.com/developerworks/cn/java/j-lo-spring-principle/))，都是构建一个数据结构，然后根据这个数据结构设计他的生存环境，并让它在这个环境中按照一定的规律在不停的运动，在它们的不停运动中设计一系列与环境或者与其他个体完成信息交换
 ## spring源码：
 1. [来源](https://www.zybuluo.com/dugu9sword/note/382745)
