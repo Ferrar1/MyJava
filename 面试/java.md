@@ -213,6 +213,10 @@
 1. 什么是B+树：[B+大致认识](https://blog.csdn.net/qq_26222859/article/details/80631121)
     >节点的度：一个节点含有的子树的个数称为该节点的度；
     >树的度：一棵树中，最大的节点的度称为树的度
+2. 特点：
+   - 每个父节点的元素都出现在子节点中，是子节点的最大最小值。因此所有叶子节点包含全部元素信息。
+   - 只有叶子节点所带的索引元素才指向数据记录，其余中间节点只是索引，没有与任何数据关联。因此，B+树的查询必须最终查到叶子节点，查询性能稳定
+   - 所有叶子节点形成有序链表，便于范围查询
 2. [B+树插入过程](http://www.cnblogs.com/yangecnu/p/Introduce-B-Tree-and-B-Plus-Tree.html)如下图1：
     <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/1-B+树插入过程.gif" width=130% height=130% />
 3. [B+的插入原则：](https://blog.csdn.net/sunshine_lyn/article/details/82747596)
