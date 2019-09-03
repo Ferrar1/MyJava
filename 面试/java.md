@@ -386,6 +386,27 @@
    - 名称可以通过name属性进行指定，也可以type指定。
 
 
+## bean的循环引用问题
+1. Spring 为了解决单例的循环依赖问题，使用了 三级缓存 ，递归调用时发现 Bean 还在创建中即为循环依赖
+1. 基于Java的引用传递，当我们获取到对象的引用时，对象的field或则属性是可以延后设置
+1. 三级缓存
+
+		/** 一级缓存：用于存放完全初始化好的 bean **/
+		private final Map<String, Object> singletonObjects = new ConcurrentHashMap<String, Object>(256);
+
+		/** 二级缓存：存放原始的 bean 对象（尚未填充属性），用于解决循环依赖 */
+		private final Map<String, Object> earlySingletonObjects = new HashMap<String, Object>(16);
+
+		/** 三级级缓存：存放 bean 工厂对象，用于解决循环依赖 */
+		private final Map<String, ObjectFactory<?>> singletonFactories = new HashMap<String, ObjectFactory<?>>(16);
+1. [解决过程](https://zhuanlan.zhihu.com/p/62382615)：
+   1. A 创建过程中需要 B，于是 A 将自己放到三级缓里面 ，去实例化 B
+   2. B 实例化的时候发现需要 A，于是 B 先查一级缓存，没有，再查二级缓存，还是没有，再查三级缓存，找到了！
+   3. 然后把三级缓存里面的这个 A 放到二级缓存里面，并删除三级缓存里面的 A
+   1. B 顺利初始化完毕，将自己放到一级缓存里面（此时B里面的A依然是创建中状态）
+   1. 然后回来接着创建 A，此时 B 已经创建结束，直接从一级缓存里面拿到 B ，然后完成创建，并将自己放到一级缓存里面
+   1. 总结：先让最底层对象完成初始化，通过三级缓存与二级缓存提前曝光创建中的 Bean，让其他 Bean 率先完成初始化。
+
 ## spring的aop与ioc
 1. 传统Java SE程序设计，我们直接在对象内部通过new进行创建对象，是程序主动去创建依赖对象；而IoC是有专门一个容器来创建这些对象，即由Ioc容器来控制对象的创建；依赖注入是当对象与其他对象发生依赖关系时，所依赖的对象由容器注入。
 2. IOC，控制反转，不是什么技术，而是一种设计思想。Ioc意味着将你设计好的对象交给容器控制
@@ -1091,13 +1112,15 @@
      - `lpush runoob redis`
      - `lpush runoob mongodb`
      - `lrange runoob 0 10`    //取值
-   - Set,添加、删除,查找的复杂度都是O(1),为集合提供了求交集、并集、差集等操作
+   - Set,添加、删除,查找的复杂度都是O(1),为集合提供了求交集、并集、差集等操作。内部使用Hash结构，所有的value都指向同一个内部值。
      - `sadd runoob mongodb`   //添加
      - `smembers runoob`    //取值
    - zset(sorted set：有序集合)，不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。zset的成员是唯一的,但分数(score)却可以重复。
      - `zadd runoob 0 redis`
      - `ZRANGEBYSCORE runoob 0 1000`
-3. [zset底层](https://lijh.dev/2019/03/19/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Redis-Zset%E5%8E%9F%E7%90%86/)：字典+跳表
+3. [zset底层](https://lijh.dev/2019/03/19/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Redis-Zset%E5%8E%9F%E7%90%86/)：Hash+跳表
+   - Hash作用就是关联元素value和权重score，保障元素value的唯一性,可以通过元素value找到相应的score值。
+   - 跳跃列表的目的在于给元素value排序，根据score的范围获取元素列表。
 
     <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/skiplist.png" width=50% height=50% />
 
