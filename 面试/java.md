@@ -275,6 +275,12 @@
      - 对于那些在查询中很少使用或者参考的列不应该创建索引
      - 对于那些只有很少数据值的列也不应该增加索引。例如人事表的性别列
      - 对于那些定义为text, image和bit数据类型的列不应该增加索引
+10. [Index Condition Pushdown（索引下推）](https://mp.weixin.qq.com/s?__biz=MzI3NzE0NjcwMg==&mid=2650124338&idx=1&sn=ac152b7bdf4b1ad16827b7851f6170ff&chksm=f36bad13c41c2405aae50eb6c8a1832bc668274e14182e1ca29c4a59c845060aac149dc0967e&scene=27#wechat_redirect)
+    - ICP在用第一个索引获取数据的同时进行筛选后面的数据，实现了where的次选条件中无法直接使用索引的情况下的筛选，实现"非直接索引"过滤条件的筛选,避免了没有ICP优化的时候分两个步骤的实现
+    - 如果是非ICP优化查询的话，是两步，第一步是获取数据，第二步是获取的数据进行条件筛选。显然，相比后者，前者可以一步实现索引的查找Seek+filter，效率上更高。
+    - [例子](https://yq.aliyun.com/articles/259696)
+11. 查看是否使用索引：`explain select * from miui_version_info limit 10;`，就是加一个explain，输出的数据中，type=all即全表查询。
+    
 
 # 操作系统
 ## 进程与线程
