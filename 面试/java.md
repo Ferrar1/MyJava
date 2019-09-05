@@ -1118,11 +1118,18 @@
    - zset(sorted set：有序集合)，不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。zset的成员是唯一的,但分数(score)却可以重复。
      - `zadd runoob 0 redis`
      - `ZRANGEBYSCORE runoob 0 1000`
-3. [zset底层](https://lijh.dev/2019/03/19/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Redis-Zset%E5%8E%9F%E7%90%86/)：Hash+跳表
-   - Hash作用就是关联元素value和权重score，保障元素value的唯一性,可以通过元素value找到相应的score值。
-   - 跳跃列表的目的在于给元素value排序，根据score的范围获取元素列表。
+3. [zset底层](https://lijh.dev/2019/03/19/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Redis-Zset%E5%8E%9F%E7%90%86/)：Hash+[跳表](https://juejin.im/post/57fa935b0e3dd90057c50fbc)
+   - Hash作用：保障元素value的唯一性,可以通过元素value找到相应的score权重值。
+   - 跳跃列表的目的在于根据score给元素value排序，即输出为有序集合。
 
     <img src="https://github.com/xuzhuang1996/MyJava/blob/master/img/面试/skiplist.png" width=50% height=50% />
+4. 跳表特点
+   1. 在有序链表的基础上发展起来，最初想模仿二分法查找的方式来使查找时间复杂度为O(log n)。但是新插入一个节点之后，就会打乱原先的链表指针对应关系。
+   2. 为了避免这个问题，为每个节点随机出一个层数，插入操作只需要修改插入节点前后的指针，而不需要对很多节点都进行调整。这样新插入一个节点不会影响其它节点
+   3. 不选择树：
+      - 它们的内存不是很大。
+      - 效率几乎一样
+      - 更容易实现，调试
 
 ### redis做消息队列
 1. 通过2个命令实现pub/sub模式的消息通知
